@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">AndroidTemplate20192020</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Trainity</string>
+    <string name="bottom_navigation_menu_Trains">Trains</string>
+    <string name="bottom_navigation_menu_Trajet">Trajet</string>
+    <string name="bottom_navigation_menu_trouverGare">Trouver une gare</string>
+    <string name="nomGare">Pas de gare disponible</string>
+    <string name="horaireTrain">Pas d\'horaires en ce moment</string>
 </resources>
