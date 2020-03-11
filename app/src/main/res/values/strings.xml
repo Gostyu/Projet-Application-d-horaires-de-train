@@ -11,4 +11,6 @@
     <!--IN trainsFragment fragment-->
     <string name="editText_train">Saisissez une gare</string>
     <string name="btn_search_train">Let\'s go</string>
+
+    <string name="direction">Pas de direction</string>
 </resources>

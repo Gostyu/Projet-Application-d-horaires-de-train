@@ -2,15 +2,22 @@ package com.upec.androidtemplate20192020.models;
 
 import androidx.annotation.NonNull;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeParser;
+import org.joda.time.format.DateTimePrinter;
+import org.joda.time.format.ISODateTimeFormat;
+
 import java.util.ArrayList;
 
 public class Departure {
- Route route;
- StopPoint stop_point;
-
- public Departure(Route route, StopPoint stop_point) {
+ private Route route;
+ private StopPoint stop_point;
+private StopDateTime stop_date_time;
+ public Departure(Route route, StopPoint stop_point,StopDateTime time) {
   this.route = route;
   this.stop_point = stop_point;
+  this.stop_date_time=time;
  }
 
  @NonNull
@@ -18,94 +25,15 @@ public class Departure {
  public String toString() {
   return route.toString()+", "+stop_point.toString();
  }
-}
-class StopDateTime{
- String departure_date_time;
- public StopDateTime(String departure_date_time) {
-  this.departure_date_time = departure_date_time;
- }
- public String getDeparture_date_time() {
-  return departure_date_time;
- }
+ public Route getRoute(){return route;}
+ public StopPoint getStop_point(){return stop_point;}
+ public void setStop_date_time(){
+ // LocalDateTime localDateTime = LocalDateTime.parse(getStopDateTime(),);
 
- public void setDeparture_date_time(String departure_date_time) {
-  this.departure_date_time = departure_date_time;
+ //dateTimeFormatter.print()
+ }
+ public String getStopDateTime(){
+   return stop_date_time.getDeparture_date_time();
  }
 }
-class Route{
- String id;
- Direction direction;
 
- public Route(String id, Direction direction) {
-  this.id = id;
-  this.direction = direction;
- }
-
- @NonNull
- @Override
- public String toString() {
-  return "Route:"+id+","+direction.toString();
- }
-}
-class Line{
- String id;
- String name;
-
- public Line(String id, String name) {
-  this.id = id;
-  this.name = name;
- }
-
- @NonNull
- @Override
- public String toString() {
-  return "Line:"+id+" "+name;
- }
-}
-class Direction{
- String id;
- String name;
- StopArea stop_area;
-
- public Direction(String id, String name, StopArea stop_area) {
-  this.id = id;
-  this.name = name;
-  this.stop_area = stop_area;
- }
-
- @NonNull
- @Override
- public String toString() {
-  return "Stop_area :"+id+" "+name+", "+stop_area.toString();
- }
-}
-class StopPoint{
- String name;
- String label;
-
- public StopPoint(String name, String label) {
-  this.name = name;
-  this.label = label;
- }
-
- @NonNull
- @Override
- public String toString() {
-  return "Stop_point :"+name+" "+label;
- }
-}
-//pour StopPoint
-class Coord{
- float lat;
- float lon;
- public Coord(float lat, float lon) {
-  this.lat = lat;
-  this.lon = lon;
- }
-
- @NonNull
- @Override
- public String toString() {
-  return "Coord : {"+lat+";"+lon+"}";
- }
-}

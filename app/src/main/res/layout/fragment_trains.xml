@@ -1,39 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.trainsFragment"
+    tools:context=".fragments.TrainsFragment"
     >
     <!-- TODO: Update blank fragment layout -->
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/editText_train"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/editText_train"
-        ></EditText>
+        android:layout_margin="10dp"
+        android:hint="@string/editText_train"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+       ></AutoCompleteTextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_train"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/editText_train"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:clipToPadding="false"
         android:visibility="invisible"
-        ></androidx.recyclerview.widget.RecyclerView>
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_search_horaires"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView_train"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/btn_search_train"
-        android:textColor="@color/cardview_light_background"
-        android:background="@color/design_default_color_secondary_variant"
-
-        ></com.google.android.material.button.MaterialButton>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_below="@id/editText_train"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

@@ -5,9 +5,9 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 
 public class StopArea{
-    String id;
-    String name;
-    String label;
+    public String id;
+    public String name;
+    public String label;
     //Coord coord;
     ArrayList<StopPoint> stop_points;
 
@@ -17,6 +17,18 @@ public class StopArea{
         this.label = label;
         //this.coord = coord;
         this.stop_points = stop_points;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @NonNull
