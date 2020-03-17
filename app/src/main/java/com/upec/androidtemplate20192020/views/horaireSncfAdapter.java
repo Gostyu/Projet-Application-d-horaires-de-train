@@ -1,6 +1,7 @@
 package com.upec.androidtemplate20192020.views;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class horaireSncfAdapter extends RecyclerView.Adapter<horaireSncfViewHold
     public void onBindViewHolder(@NonNull horaireSncfViewHolder vh, int position) {
         String nameDirection = departures.get(position).getRoute().getDirection().getName();
         String horaire=departures.get(position).getStopDateTime();
-        vh.updateUI(nameDirection,horaire,position);
+        vh.updateUI(nameDirection,horaire);
     }
 
     @Override

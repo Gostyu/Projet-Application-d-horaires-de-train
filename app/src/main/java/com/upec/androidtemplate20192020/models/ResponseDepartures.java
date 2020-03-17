@@ -13,7 +13,6 @@ public class ResponseDepartures {
     public List<Departure> getDepartures() {
         return departures;
     }
-
     @NonNull
     @Override
     public String toString() {

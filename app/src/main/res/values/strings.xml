@@ -13,4 +13,8 @@
     <string name="btn_search_train">Let\'s go</string>
 
     <string name="direction">Pas de direction</string>
+
+    <string name="editText_trajet1">Départ</string>
+    <string name="editText_trajet2">Arrivée</string>
+
 </resources>

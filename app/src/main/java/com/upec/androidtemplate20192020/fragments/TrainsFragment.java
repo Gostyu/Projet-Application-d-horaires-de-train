@@ -1,6 +1,5 @@
 package com.upec.androidtemplate20192020.fragments;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -8,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -18,26 +15,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.upec.androidtemplate20192020.Backend.SncfApiWorker;
 import com.upec.androidtemplate20192020.R;
 import com.upec.androidtemplate20192020.models.Departure;
-import com.upec.androidtemplate20192020.models.ResponseDepartures;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
-import com.upec.androidtemplate20192020.models.StopArea;
+import com.upec.androidtemplate20192020.views.MyAutoCompleteTextViewConfig;
 import com.upec.androidtemplate20192020.views.horaireSncfAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class TrainsFragment extends Fragment {
-    final int NB_CHARACTERS=2;
    // static ResponseStopAreas stations;
     AutoCompleteTextView editText;
+    MyAutoCompleteTextViewConfig myAutoCompleteTextView;
     RecyclerView recyclerView;
     final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
     //List<StopArea> stopAreasList = null;
@@ -53,31 +43,21 @@ public class TrainsFragment extends Fragment {
          * setContentView.
          */
         final View rootView = inflater.inflate(R.layout.fragment_trains, container, false);
-        editText = rootView.findViewById(R.id.editText_train);
+        //editText = rootView.findViewById(R.id.editText_train);
         recyclerView = rootView.findViewById(R.id.recyclerView_train);
         sncfApiWorker.requestAllStationsResults();
-        editText.setOnEditorActionListener(onEditorActionListener);
+        myAutoCompleteTextView=new MyAutoCompleteTextViewConfig(getContext(),rootView.findViewById(R.id.editText_train));
+        myAutoCompleteTextView.setListener(onEditorActionListener);
+        editText=myAutoCompleteTextView.getEditText();
         // Inflate the layout for this fragment
         return rootView;
     }
 
     /**
-     * Recuperer la liste des gares pour l'autocompletion de l'edittext
-     * @param list
-     */
-    public void autoCompleteTextViewData(ArrayList<String> list){
-        if(list!=null){
-            ArrayList<String> data = (ArrayList<String>) list.clone();
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),android.R.layout.select_dialog_item,data);
-            editText.setThreshold(NB_CHARACTERS);
-            editText.setAdapter(adapter);
-        }
-    }
-    /**
      * Mets la liste des gares dans l'editText pour l'autocompletion
      */
     public void getAllStationsResults(ResponseStopAreas response){
-        autoCompleteTextViewData(response.getStop_areasNames());
+        myAutoCompleteTextView.autoCompleteTextViewData(response.getStop_areasNames());
     }
     /*
 

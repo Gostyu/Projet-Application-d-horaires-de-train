@@ -1,6 +1,7 @@
 package com.upec.androidtemplate20192020.Backend;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -11,6 +12,15 @@ import com.upec.androidtemplate20192020.models.ResponseDepartures;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
 
+import org.joda.time.DateTime;
+import org.joda.time.Hours;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.ISODateTimeFormat;
+
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,7 +66,15 @@ public class SncfApiWorker {
             public void onResponse(Call<ResponseStopAreas> call, Response<ResponseStopAreas> response) {
                 if(response.body()!=null){
                    Log.d(TAG +"ALLStations",response.body().toString());
-                    trainsFragment.getAllStationsResults(response.body());
+                    if(trainsFragment!=null) {
+                        trainsFragment.getAllStationsResults(response.body());
+                    }
+                    if(journeyFragment!=null) {
+                        journeyFragment.getAllStationsResults(response.body());
+                    }
+                    if(stationsFragment!=null){
+
+                    }
                 }else{
                     Log.d(TAG+"Deparatures", response.raw().toString());
                 }
@@ -118,8 +136,28 @@ public class SncfApiWorker {
                if(response.body()!=null){
                    Log.d(TAG+"DepBYStAId",response.body().toString());
                    trainsFragment.createRecylerView(response.body().getDepartures());
-                   Log.d(TAG+"DepBYStAId size = ",String.valueOf(response.body().getDepartures().size()));
+                   if(response.body().getDepartures().size()>0){
+                       Log.d(TAG+"DepBYStAId size = ",String.valueOf(response.body().getDepartures().size()));
+                       String dateDepart=response.body().getDepartures().get(0).getStopDateTime();
+                       if(dateDepart!=null) {
+                           Log.d("DATE FOR DEPARTURE", dateDepart);
+                           try{
+                               DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyyMd'T'Hms");
+                               DateTime dateTime= DateTime.parse(dateDepart,formatter);
+                              // String hour=dateTime.toString("HH:mm");
+                               Log.d("NEW DATE",dateTime.toString());
+                              // Log.d("NEW DATE",hour);
+                           }catch(IllegalArgumentException e){
+                               e.printStackTrace();
+                           }
+                       }
+
+                     }
                }else{
+                   if(trainsFragment ==null){
+                       Log.d("INfO trainfragment","null");
+                   }
+                   Toast.makeText(trainsFragment.getContext(),"Liste des départs indisponible !",Toast.LENGTH_LONG).show();
                    Log.d(TAG+"DepBYStAId",response.raw().toString());
                }
            }
@@ -129,52 +167,12 @@ public class SncfApiWorker {
            }
        };
     }
-/*public static void getDeparturesByStopAreaId(String id){
-        try {
-            Log.d("SNCF_API","getDeparturesByStopAreaID OK");
-          Call<ResponseDepartures> response=SncfApiServiceInstance.getDeparturesFromStopArea(id);
-          response.enqueue(handleResponseGetAllDeparturesByStopAreaId());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private static Callback<ResponseDepartures> handleResponseGetAllDeparturesByStopAreaId() {
-        return new Callback<ResponseDepartures>() {
-            @Override
-            public void onResponse(Call<ResponseDepartures> call, Response<ResponseDepartures> response) {
-
-                if(response.body()!=null){
-                   Log.d(TAG+"Deparatures", response.body().toString());
-                }else{
-                    Log.d(TAG+"Deparatures", response.raw().toString());
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseDepartures> call, Throwable t) {
-                    Log.d(TAG+"Departures",t.toString());
-            }
-        } ;
-   }*/
-    /*public static void getDeparturesByStopAreaIdResults(Call<ResponseDepartures> response) {
-        Log.d("getDeparturesbySAIR","Ok");
-        trainsFragment.getAllDepartures(response);
-    }
-
+/*
     public void getJourneys(String from, String to){
         try{
             Call<Journeys> response= SncfApiServiceInstance.getJourneys(from,to);
 
         }catch(Exception e){
-            e.printStackTrace();
-        }
-    }*/
-     /*public void getDepartures(String from,Call<ResponseDepartures> response){
-        try{
-           // LocalDate localDate = LocalDate.now();
-            //localDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            //return SncfApiServiceInstance.getDeparturesFromStopArea(from,)
-        }catch (Exception e){
             e.printStackTrace();
         }
     }*/
