@@ -24,11 +24,12 @@ import com.upec.androidtemplate20192020.views.MyAutoCompleteTextViewConfig;
  * A simple {@link Fragment} subclass.
  */
 public class JourneyFragment extends Fragment {
+    ResponseStopAreas stopAreas;
     EditText editTextStart;
     AutoCompleteTextView editTextEnd;
     MyAutoCompleteTextViewConfig myAutoCompleteTextViewConfig;
     MyAutoCompleteTextViewConfig myAutoCompleteTextViewConfig2;
-    final SncfApiWorker sncfApiWorker2 =  new SncfApiWorker(this);
+    final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
     public JourneyFragment() {
         // Required empty public constructor
     }
@@ -40,33 +41,34 @@ public class JourneyFragment extends Fragment {
         View rootJourneyView =  inflater.inflate(R.layout.fragment_trajet, container, false);
         editTextStart=rootJourneyView.findViewById(R.id.editText_trajet1);
         editTextEnd=rootJourneyView.findViewById(R.id.editText_trajet2);
-        sncfApiWorker2.requestAllStationsResults();
+        sncfApiWorker.requestAllStationsResults();
         myAutoCompleteTextViewConfig=new MyAutoCompleteTextViewConfig(getContext(),rootJourneyView.findViewById(R.id.editText_trajet1));
         myAutoCompleteTextViewConfig2=new MyAutoCompleteTextViewConfig(getContext(),rootJourneyView.findViewById(R.id.editText_trajet2));
         editTextStart=myAutoCompleteTextViewConfig.getEditText();
         editTextEnd=myAutoCompleteTextViewConfig2.getEditText();
-        myAutoCompleteTextViewConfig.setListener(onEditorActionListener1);
-        myAutoCompleteTextViewConfig2.setListener(onEditorActionListener1);
+        myAutoCompleteTextViewConfig.setListener(onEditorActionListener);
+        myAutoCompleteTextViewConfig2.setListener(onEditorActionListener);
         return rootJourneyView;
     }
     public void getAllStationsResults(ResponseStopAreas response){
         myAutoCompleteTextViewConfig.autoCompleteTextViewData(response.getStop_areasNames());
         myAutoCompleteTextViewConfig2.autoCompleteTextViewData(response.getStop_areasNames());
+        stopAreas=response;
     }
-    /*
 
-     */
-   TextView.OnEditorActionListener onEditorActionListener1 = new TextView.OnEditorActionListener() {
+   TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
+            String from="", to="";
             if(actionId==EditorInfo.IME_ACTION_NEXT) {
                 editTextEnd.setFocusable(true);
             }
             if(actionId==EditorInfo.IME_ACTION_SEARCH){
-                if(editTextStart.getText().toString()!="" && editTextEnd.getText().toString()!=""){
-                    Log.d("onEditor", editTextStart.getText().toString());
-                    //searchJourneys(editText.getText().toString());
+                from=editTextStart.getText().toString();
+                to=editTextEnd.getText().toString();
+                if(from!="" && to!=""){
+                    Log.d("onEditor in JFragment", from+" "+to);
+                    sncfApiWorker.getJourneys(from,to);
                 }
                 return true;
             }

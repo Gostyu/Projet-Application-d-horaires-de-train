@@ -8,19 +8,16 @@ import androidx.fragment.app.Fragment;
 import com.upec.androidtemplate20192020.fragments.JourneyFragment;
 import com.upec.androidtemplate20192020.fragments.StationsFragment;
 import com.upec.androidtemplate20192020.fragments.TrainsFragment;
+import com.upec.androidtemplate20192020.models.Journey;
 import com.upec.androidtemplate20192020.models.ResponseDepartures;
+import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
 
 import org.joda.time.DateTime;
-import org.joda.time.Hours;
-import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.ISODateTimeFormat;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,7 +32,8 @@ public class SncfApiWorker {
     static JourneyFragment journeyFragment;
     static String TAG ="INFO_Response";
     static int MAX_RETRIES = 3;
-   static SncfApiService SncfApiServiceInstance=sncfApiServiceSingleton();
+    static ResponseStopAreas mRepsonseStopAreas;
+    static SncfApiService SncfApiServiceInstance=sncfApiServiceSingleton();
    public SncfApiWorker(Fragment fragment){
        if(fragment instanceof TrainsFragment){
            trainsFragment = (TrainsFragment) fragment;
@@ -60,12 +58,14 @@ public class SncfApiWorker {
             e.printStackTrace();
         }
     }
+
     private Callback<ResponseStopAreas> handleResponseAllStations() {
         return new Callback<ResponseStopAreas>() {
             @Override
             public void onResponse(Call<ResponseStopAreas> call, Response<ResponseStopAreas> response) {
                 if(response.body()!=null){
                    Log.d(TAG +"ALLStations",response.body().toString());
+                    mRepsonseStopAreas=response.body();
                     if(trainsFragment!=null) {
                         trainsFragment.getAllStationsResults(response.body());
                     }
@@ -82,7 +82,7 @@ public class SncfApiWorker {
             @Override
             public void onFailure(Call<ResponseStopAreas> call, Throwable t) {
                 Log.e(TAG+"ALLStations",t.toString());
-
+                call.clone().enqueue(handleResponseAllStations());
             }
         };
     }
@@ -142,10 +142,10 @@ public class SncfApiWorker {
                        if(dateDepart!=null) {
                            Log.d("DATE FOR DEPARTURE", dateDepart);
                            try{
-                               DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyyMd'T'Hms");
-                               DateTime dateTime= DateTime.parse(dateDepart,formatter);
+                               //DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyyMd'T'Hms");
+                               //DateTime dateTime= DateTime.parse(dateDepart,formatter);
                               // String hour=dateTime.toString("HH:mm");
-                               Log.d("NEW DATE",dateTime.toString());
+                              // Log.d("NEW DATE",dateTime.toString());
                               // Log.d("NEW DATE",hour);
                            }catch(IllegalArgumentException e){
                                e.printStackTrace();
@@ -167,13 +167,48 @@ public class SncfApiWorker {
            }
        };
     }
-/*
     public void getJourneys(String from, String to){
-        try{
-            Call<Journeys> response= SncfApiServiceInstance.getJourneys(from,to);
+       String stopAreaId_from="";
+        String stopAreasId_to="";
+       if(mRepsonseStopAreas!=null) {
+           Log.d("GETJOURNEY", mRepsonseStopAreas.toString());
+           stopAreaId_from=mRepsonseStopAreas.getStopAreaId(from);
+           stopAreasId_to=mRepsonseStopAreas.getStopAreaId(to);
+           try {
+               Call<ResponseJourneys> journeyCall = SncfApiServiceInstance.getJourneys(stopAreaId_from,stopAreasId_to);
+               journeyCall.enqueue(handleResponseJourneys());
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+       }
+    }
+    private static Callback<ResponseJourneys> handleResponseJourneys(){
+       return new Callback<ResponseJourneys>(){
+           @Override
+           public void onResponse(Call<ResponseJourneys> call, Response<ResponseJourneys> response) {
+                if(response.isSuccessful()){
+                    if(response.body()!=null){
+                        Log.d("HRJ OK",response.raw().toString());
+                        Log.d("HRJ OK",response.body().toString());
+                        Log.d("HRJ OK","count of journeys :"+String.valueOf(response.body().getJourneys().size()));
+                        //journeyFragment
+                        sendDataTo(journeyFragment,response.body().getJourneys());
+                    }
+                }else{
+                    Log.d("HRJ",response.raw().toString());
+                }
+           }
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }*/
+           @Override
+           public void onFailure(Call<ResponseJourneys> call, Throwable t) {
+
+           }
+       };
+    }
+
+    private static void sendDataTo(JourneyFragment journeyFragment, List<Journey> journeys) {
+
+    }
+
+
 }

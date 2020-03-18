@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- TODO: Update blank fragment layout -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.JourneyFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragments.JourneyFragment"
     >
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/bloc1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="30dp"
+        android:orientation="vertical"
+        android:layout_margin="25dp"
         >
         <AutoCompleteTextView
             android:id="@+id/editText_trajet1"
@@ -22,9 +23,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="20dp"
-            >
-        </AutoCompleteTextView>
+            android:layout_marginBottom="40dp"
+            android:layout_above="@id/editText_trajet2"
+            />
         <AutoCompleteTextView
             android:id="@+id/editText_trajet2"
             android:layout_width="match_parent"
@@ -32,10 +33,21 @@
             android:hint="@string/editText_trajet2"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:layout_below="@id/editText_trajet1"
+            android:dropDownAnchor="@id/bloc1"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
             ></AutoCompleteTextView>
-    </RelativeLayout>
-   <!-- Ajouter un bouton ici peut être-->
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_trajet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:visibility="gone"
+        android:layout_below="@id/bloc1"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>
+
+   <!-- Ajouter un bouton ici peut être-->
+

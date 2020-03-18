@@ -2,7 +2,7 @@ package com.upec.androidtemplate20192020.Backend;
 
 
 import com.upec.androidtemplate20192020.models.ResponseDepartures;
-import com.upec.androidtemplate20192020.models.Journeys;
+import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 
 import retrofit2.Call;
@@ -33,7 +33,8 @@ public interface SncfApiService {
     @GET(PATH+"stop_areas/{stop_area_ID}/physical_modes/"+physical_mode+"/departures?data_freshness=realtime")
     Call<ResponseDepartures> getDeparturesFromStopAreaId(@Path("stop_area_ID")String stop_area_id);
 
-    @GET(PATH+"journeys")
-    Call<Journeys> getJourneys(@Query("from") String from, @Query("to") String to);
+    @Headers({"Authorization:"+InfoApi.SNCF_API_KEY,"Connection:keep-alive"})
+    @GET(PATH+"journeys?data_freshness=realtime")
+    Call<ResponseJourneys> getJourneys(@Query("from") String from, @Query("to") String to);
    // Call<Places> getPlaces();
 }

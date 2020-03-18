@@ -13,7 +13,7 @@ public class MyAutoCompleteTextViewConfig {
         context=c;
         this.editText=editText;
     }
-    final int NB_CHARACTERS=2;
+    final int NB_CHARACTERS=1;
     /**
      * Recuperer la liste des gares pour l'autocompletion de l'edittext
      * @param list
@@ -21,7 +21,7 @@ public class MyAutoCompleteTextViewConfig {
     public void autoCompleteTextViewData(ArrayList<String> list){
         if(list!=null){
             ArrayList<String> data = (ArrayList<String>) list.clone();
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item,data);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context,android.R.layout.simple_dropdown_item_1line,data);
             editText.setThreshold(NB_CHARACTERS);
             editText.setAdapter(adapter);
         }
