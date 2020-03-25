@@ -1,7 +1,10 @@
 package com.upec.androidtemplate20192020.fragments;
 
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.util.Log;
+=======
+>>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +27,12 @@ public class StationsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootStationsView = inflater.inflate(R.layout.fragment_trouver_gare, container, false);
         textView=rootStationsView.findViewById(R.id.textViewStations);
+<<<<<<< HEAD
 
 
         Log.e("businessService","cALLING");
+=======
+>>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
         return rootStationsView;
     }
 }

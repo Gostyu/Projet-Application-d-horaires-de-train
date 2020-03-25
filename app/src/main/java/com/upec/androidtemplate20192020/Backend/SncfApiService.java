@@ -1,12 +1,17 @@
 package com.upec.androidtemplate20192020.Backend;
 
 
+<<<<<<< HEAD
 import com.upec.androidtemplate20192020.models.ResponseCoverageZoneList;
 import com.upec.androidtemplate20192020.models.ResponseDepartures;
 import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyOfCoordinate;
 import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyOfResource;
 import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyWithoutRegionIdentifier;
+=======
+import com.upec.androidtemplate20192020.models.ResponseDepartures;
+import com.upec.androidtemplate20192020.models.ResponseJourneys;
+>>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 
 import retrofit2.Call;
@@ -19,6 +24,7 @@ public interface SncfApiService {
     String PATH="coverage/fr-idf/";
     String rerNetwork="network:0:741";
     String physical_mode="physical_mode:RapidTransit";
+<<<<<<< HEAD
 
     String PATH2="coverage/sncf/commercial_modes";
 
@@ -47,6 +53,12 @@ public interface SncfApiService {
 
     /**/
 
+=======
+    /**
+     * Donne la liste de toutes les gares du réseau RER sans les perturbations
+     * @return
+     */
+>>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
     @Headers({"Authorization:"+InfoApi.SNCF_API_KEY,"Connection:keep-alive"})
     @GET(PATH+"networks/"+rerNetwork+"/physical_modes/"+physical_mode+"/stop_areas?count=250&disable_disruption=true")
     Call<ResponseStopAreas> getStopAreas();
