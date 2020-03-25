@@ -1,9 +1,6 @@
 package com.upec.androidtemplate20192020.Backend;
 
-<<<<<<< HEAD
 import android.content.Context;
-=======
->>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,22 +10,12 @@ import com.upec.androidtemplate20192020.fragments.JourneyFragment;
 import com.upec.androidtemplate20192020.fragments.StationsFragment;
 import com.upec.androidtemplate20192020.fragments.TrainsFragment;
 import com.upec.androidtemplate20192020.models.Journey;
-<<<<<<< HEAD
 import com.upec.androidtemplate20192020.models.ResponseCoverageZoneList;
-=======
->>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
 import com.upec.androidtemplate20192020.models.ResponseDepartures;
 import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
 
-<<<<<<< HEAD
-=======
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
->>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,12 +25,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SncfApiWorker {
-<<<<<<< HEAD
 
     Context context;
 
-=======
->>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
     static TrainsFragment trainsFragment;
     static StationsFragment stationsFragment;
     static JourneyFragment journeyFragment;
@@ -51,13 +35,10 @@ public class SncfApiWorker {
     static int MAX_RETRIES = 3;
     static ResponseStopAreas mRepsonseStopAreas;
     static SncfApiService SncfApiServiceInstance=sncfApiServiceSingleton();
-<<<<<<< HEAD
 
 
 
 
-=======
->>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
    public SncfApiWorker(Fragment fragment){
        if(fragment instanceof TrainsFragment){
            trainsFragment = (TrainsFragment) fragment;
@@ -83,7 +64,6 @@ public class SncfApiWorker {
         }
     }
 
-<<<<<<< HEAD
     /******************************************************************/
 
 
@@ -117,8 +97,6 @@ public class SncfApiWorker {
 
     /*******************************************************************/
 
-=======
->>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
     private Callback<ResponseStopAreas> handleResponseAllStations() {
         return new Callback<ResponseStopAreas>() {
             @Override
@@ -134,10 +112,7 @@ public class SncfApiWorker {
                     }
                     if(stationsFragment!=null){
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 7ef9f95a21a4a5b477500a6150065539c0e1b790
                     }
                 }else{
                     Log.d(TAG+"Deparatures", response.raw().toString());
