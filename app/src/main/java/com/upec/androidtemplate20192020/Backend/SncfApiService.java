@@ -1,8 +1,17 @@
 package com.upec.androidtemplate20192020.Backend;
 
 
+<<<<<<< HEAD
 import com.upec.androidtemplate20192020.models.ResponseDepartures;
 import com.upec.androidtemplate20192020.models.ResponseJourneys;
+=======
+import com.upec.androidtemplate20192020.models.ResponseCoverageZoneList;
+import com.upec.androidtemplate20192020.models.ResponseDepartures;
+import com.upec.androidtemplate20192020.models.ResponseJourneys;
+import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyOfCoordinate;
+import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyOfResource;
+import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyWithoutRegionIdentifier;
+>>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 
 import retrofit2.Call;
@@ -15,10 +24,41 @@ public interface SncfApiService {
     String PATH="coverage/fr-idf/";
     String rerNetwork="network:0:741";
     String physical_mode="physical_mode:RapidTransit";
+<<<<<<< HEAD
     /**
      * Donne la liste de toutes les gares du réseau RER sans les perturbations
      * @return
      */
+=======
+
+    String PATH2="coverage/sncf/commercial_modes";
+
+    /**/
+    // Zone list covered by the navitia
+    @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
+    @GET(PATH)
+    Call<ResponseCoverageZoneList> getCoverageZoneList();
+    
+    // Object list nearby of the coordinate
+    @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
+    @GET(PATH+"/{region_id}/"+"/coords/"+"/{lon;lat}/"+"places_nearby")
+    Call<ResponseObjectListNearbyOfCoordinate> getObjectListNearbyOfCoordinate();
+
+    // Object list nearby of the resource
+    @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
+    @GET(PATH+"/{region_id}/"+"/{resource_path}/"+"places_nearby")
+    Call<ResponseObjectListNearbyOfResource> getObjetListNearbyOfResource();
+
+    // Object list nearby of the resource without the region identifier
+    @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
+    @GET("/coord/"+"{lon;lat}"+"places_nearby")
+    Call<ResponseObjectListNearbyWithoutRegionIdentifier> getObjectListNearbyWithoutRegionIdentifier();
+
+    //
+
+    /**/
+
+>>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
     @Headers({"Authorization:"+InfoApi.SNCF_API_KEY,"Connection:keep-alive"})
     @GET(PATH+"networks/"+rerNetwork+"/physical_modes/"+physical_mode+"/stop_areas?count=250&disable_disruption=true")
     Call<ResponseStopAreas> getStopAreas();

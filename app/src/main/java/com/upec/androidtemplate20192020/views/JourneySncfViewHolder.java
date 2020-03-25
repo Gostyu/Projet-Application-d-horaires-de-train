@@ -1,5 +1,6 @@
 package com.upec.androidtemplate20192020.views;
 
+<<<<<<< HEAD
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,4 +25,7 @@ public class JourneySncfViewHolder extends RecyclerView.ViewHolder {
     public void updateUI(String time){
         textView.setText(time);
     }
+=======
+public class JourneySncfViewHolder {
+>>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 }

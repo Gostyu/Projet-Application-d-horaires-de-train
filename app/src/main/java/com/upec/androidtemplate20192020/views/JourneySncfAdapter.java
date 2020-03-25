@@ -1,5 +1,6 @@
 package com.upec.androidtemplate20192020.views;
 
+<<<<<<< HEAD
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,4 +40,7 @@ public class JourneySncfAdapter extends RecyclerView.Adapter<JourneySncfViewHold
     public int getItemCount() {
         return journeyList.size();
     }
+=======
+public class JourneySncfAdapter {
+>>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 }

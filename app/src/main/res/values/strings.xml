@@ -17,6 +17,9 @@
     <string name="editText_trajet1">Départ</string>
     <string name="editText_trajet2">Arrivée</string>
 
+<<<<<<< HEAD
     <string name="horaireTrajet">Pas d\'horaires disponibles</string>
 
+=======
+>>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 </resources>
