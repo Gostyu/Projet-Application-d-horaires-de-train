@@ -40,6 +40,7 @@ import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     static BottomNavigationView navigationView;
+    Fragment.SavedState state;
     @Override
     protected void onCreate(Bundle si) {
         super.onCreate(si);
@@ -58,8 +59,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         FragmentTransaction transaction= fragmentManager.beginTransaction();
         if(fragment!=null){
             transaction.replace(R.id.fragment_container, fragment).commit();
-            return true;
+        return true;
         }
+        
         return false;
     }
     public void updateUIAfterClick(View v){

@@ -1,9 +1,6 @@
 package com.upec.androidtemplate20192020.Backend;
 
-<<<<<<< HEAD
-=======
 import android.content.Context;
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,22 +10,16 @@ import com.upec.androidtemplate20192020.fragments.JourneyFragment;
 import com.upec.androidtemplate20192020.fragments.StationsFragment;
 import com.upec.androidtemplate20192020.fragments.TrainsFragment;
 import com.upec.androidtemplate20192020.models.Journey;
-<<<<<<< HEAD
-=======
 import com.upec.androidtemplate20192020.models.ResponseCoverageZoneList;
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 import com.upec.androidtemplate20192020.models.ResponseDepartures;
 import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
 
-<<<<<<< HEAD
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-=======
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,12 +29,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SncfApiWorker {
-<<<<<<< HEAD
-=======
+
 
     Context context;
 
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
     static TrainsFragment trainsFragment;
     static StationsFragment stationsFragment;
     static JourneyFragment journeyFragment;
@@ -51,13 +40,6 @@ public class SncfApiWorker {
     static int MAX_RETRIES = 3;
     static ResponseStopAreas mRepsonseStopAreas;
     static SncfApiService SncfApiServiceInstance=sncfApiServiceSingleton();
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
    public SncfApiWorker(Fragment fragment){
        if(fragment instanceof TrainsFragment){
            trainsFragment = (TrainsFragment) fragment;
@@ -83,8 +65,6 @@ public class SncfApiWorker {
         }
     }
 
-<<<<<<< HEAD
-=======
     /******************************************************************/
 
 
@@ -118,7 +98,6 @@ public class SncfApiWorker {
 
     /*******************************************************************/
 
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
     private Callback<ResponseStopAreas> handleResponseAllStations() {
         return new Callback<ResponseStopAreas>() {
             @Override
@@ -134,10 +113,6 @@ public class SncfApiWorker {
                     }
                     if(stationsFragment!=null){
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
                     }
                 }else{
                     Log.d(TAG+"Deparatures", response.raw().toString());
@@ -181,11 +156,7 @@ public class SncfApiWorker {
             }
             @Override
             public void onFailure(Call<ResponseStopAreas> call, Throwable t) {
-<<<<<<< HEAD
                 call.clone().enqueue(handleResponseDeparturesByStopAreaName(stopAreaName));
-=======
-
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
             }
         };
    }
@@ -231,11 +202,7 @@ public class SncfApiWorker {
            }
            @Override
            public void onFailure(Call<ResponseDepartures> call, Throwable t) {
-<<<<<<< HEAD
                 call.clone().enqueue(handleResponseDeparturesByStopAreaId());
-=======
-
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
            }
        };
     }
@@ -246,11 +213,8 @@ public class SncfApiWorker {
            Log.d("GETJOURNEY", mRepsonseStopAreas.toString());
            stopAreaId_from=mRepsonseStopAreas.getStopAreaId(from);
            stopAreasId_to=mRepsonseStopAreas.getStopAreaId(to);
-<<<<<<< HEAD
            Log.d("GETJOURNEY", stopAreaId_from+" "+from);
            Log.d("GETJOURNEY", stopAreasId_to+" "+to);
-=======
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
            try {
                Call<ResponseJourneys> journeyCall = SncfApiServiceInstance.getJourneys(stopAreaId_from,stopAreasId_to);
                journeyCall.enqueue(handleResponseJourneys());
@@ -259,14 +223,10 @@ public class SncfApiWorker {
            }
        }
     }
-<<<<<<< HEAD
-
     /**
      *
      * @return
      */
-=======
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
     private static Callback<ResponseJourneys> handleResponseJourneys(){
        return new Callback<ResponseJourneys>(){
            @Override
@@ -275,7 +235,6 @@ public class SncfApiWorker {
                     if(response.body()!=null){
                         Log.d("HRJ OK",response.raw().toString());
                         Log.d("HRJ OK",response.body().toString());
-<<<<<<< HEAD
                         Log.d("HRJ OK","count of journeys :"+response.body().getJourneys().size());
                         if(response.body().getJourneys().size()>0){
                             for(Journey j : response.body().getJourneys()){
@@ -286,35 +245,24 @@ public class SncfApiWorker {
                         sendDataTo(journeyFragment,response.body().getJourneys());
                     }
                     Log.d("HRJ OK",response.raw().toString());
-
-=======
-                        Log.d("HRJ OK","count of journeys :"+String.valueOf(response.body().getJourneys().size()));
+                     Log.d("HRJ OK","count of journeys :"+String.valueOf(response.body().getJourneys().size()));
                         //journeyFragment
                         sendDataTo(journeyFragment,response.body().getJourneys());
                     }
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
-                }else{
+                else{
                     Log.d("HRJ",response.raw().toString());
                 }
            }
-
            @Override
            public void onFailure(Call<ResponseJourneys> call, Throwable t) {
-<<<<<<< HEAD
                 call.clone().enqueue(handleResponseJourneys());
-=======
 
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
            }
        };
     }
 
     private static void sendDataTo(JourneyFragment journeyFragment, List<Journey> journeys) {
-<<<<<<< HEAD
         journeyFragment.createRecylerView(journeys);
-=======
-
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
     }
 
 

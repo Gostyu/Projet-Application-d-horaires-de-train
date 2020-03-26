@@ -1,7 +1,8 @@
 package com.upec.androidtemplate20192020.views;
 
-<<<<<<< HEAD
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,16 +17,27 @@ import java.util.List;
 public class JourneySncfViewHolder extends RecyclerView.ViewHolder {
     CardView cardView;
     TextView textView;
+    ImageView imageView;
     List<ImageView> imageViews;
-    public JourneySncfViewHolder(@NonNull View itemView) {
+    public JourneySncfViewHolder(@NonNull View itemView,OnClickImageListener listener) {
         super(itemView);
         cardView = itemView.findViewById(R.id.cardViewJourney);
         textView=itemView.findViewById(R.id.timeJourney);
+        imageView=itemView.findViewById(R.id.saveJourney);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    int pos=getAdapterPosition();
+                    if(pos!=RecyclerView.NO_POSITION){
+                        listener.onSaveJourney(pos);
+                    }
+                }
+            }
+        });
     }
+
     public void updateUI(String time){
         textView.setText(time);
     }
-=======
-public class JourneySncfViewHolder {
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 }

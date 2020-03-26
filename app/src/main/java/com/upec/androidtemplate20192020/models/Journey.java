@@ -1,6 +1,5 @@
 package com.upec.androidtemplate20192020.models;
 
-<<<<<<< HEAD
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,36 +9,30 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.List;
-=======
 import androidx.annotation.NonNull;
 
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
 import java.util.Map;
 
 public class Journey {
     int duration;
     Map<String,Integer> durations;
-<<<<<<< HEAD
     List<Section> sections;
     String arrival_date_time;
-    public Journey(int duration,Map<String,Integer>durations,String arrival_date_time,List<Section> sections){
-        this.duration=duration;
-        this.durations=durations;
-        this.arrival_date_time=arrival_date_time;
-        this.sections=sections;
-=======
-    String arrival_date_time;
+    public Journey(int duration,Map<String,Integer>durations,String arrival_date_time,List<Section> sections) {
+        this.duration = duration;
+        this.durations = durations;
+        this.arrival_date_time = arrival_date_time;
+        this.sections = sections;
+    }
     public Journey(int duration,Map<String,Integer>durations,String arrival_date_time){
         this.duration=duration;
         this.durations=durations;
         this.arrival_date_time=arrival_date_time;
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
     }
 
     @NonNull
     @Override
     public String toString() {
-<<<<<<< HEAD
         return "duration :" +duration+", arrival datetime :"+arrival_date_time+", durations : "+durations.toString()+", sections :"+sections.toString();
     }
 
@@ -85,10 +78,6 @@ public class Journey {
         }catch(IllegalArgumentException e){
             e.printStackTrace();
         }
-
-        return null;
-=======
         return "duration :" +duration+", arrival datetime :"+arrival_date_time+", durations : "+durations.toString();
->>>>>>> a195ba196185235f115a53cf4db2a70c8cd17c57
     }
 }
