@@ -1,5 +1,10 @@
 package com.upec.androidtemplate20192020;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -16,6 +21,7 @@ import com.upec.androidtemplate20192020.models.StopArea;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,22 +44,40 @@ import retrofit2.Retrofit;
 
 import static android.view.View.GONE;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+    private static final int REQUEST_LOCATION=1;
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
+    private String lat;
+    private String lon;
+
     static BottomNavigationView navigationView;
     Fragment.SavedState state;
     @Override
     protected void onCreate(Bundle si) {
         super.onCreate(si);
         setContentView(R.layout.activity_main);
-        //LocalDate localDate = LocalDate.now();
-        //localDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        //Log.d("TIME",localDate.toString());
-        //SncfApiWorker sncfApiWorker = new SncfApiWorker();
-        //sncfApiWorker.getAllStationsResults(sncfApiWorker.getAllStations());
         updateFragment(new TrainsFragment());
         navigationView=findViewById(R.id.bottom_nav_bar);
         navigationView.setOnNavigationItemSelectedListener(this);
     }
+
      boolean updateFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction= fragmentManager.beginTransaction();
@@ -79,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.trouverGare:
                 fragment=new StationsFragment();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(fragment, "locaFrag")
+                        .commit();
                 break;
         }
         return updateFragment(fragment);
