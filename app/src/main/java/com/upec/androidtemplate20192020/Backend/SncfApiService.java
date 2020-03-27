@@ -33,18 +33,6 @@ public interface SncfApiService {
     @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
     @GET(PATH)
     Call<ResponseCoverageZoneList> getCoverageZoneList();
-    
-    // Object list nearby of the coordinate
-    //@Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
-    //@GET(PATH+"/{region_id}/"+"/coords/"+"/{lon;lat}/"+"places_nearby")
-    //Call<ResponseObjectListNearbyOfCoordinate> getObjectListNearbyOfCoordinate();
-
-    // Object list nearby of the resource
-    //@Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
-    //@GET(PATH+"/{region_id}/"+"/{resource_path}/"+"places_nearby")
-    //Call<ResponseObjectListNearbyOfResource> getObjetListNearbyOfResource();
-
-    //https://api.sncf.com/v1/coord/2.475551%3B48.782097/places_nearby?
 
 
     // Object list nearby of the resource without the region identifier
@@ -68,5 +56,5 @@ public interface SncfApiService {
     @Headers({"Authorization:"+InfoApi.SNCF_API_KEY,"Connection:keep-alive"})
     @GET(PATH+"journeys?data_freshness=realtime")
     Call<ResponseJourneys> getJourneys(@Query("from") String from, @Query("to") String to);
-   // Call<Places> getPlaces();
+
 }

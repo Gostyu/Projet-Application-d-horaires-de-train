@@ -123,15 +123,10 @@ public class StationsFragment extends Fragment implements LocationListener  {
 
             }else{
                 Log.d("Location","Null");
-
             }
-
         }
-
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
-
-
 
     }
 

@@ -46,27 +46,6 @@ import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    private static final int REQUEST_LOCATION=1;
-
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLon() {
-        return lon;
-    }
-
-    public void setLon(String lon) {
-        this.lon = lon;
-    }
-
-    private String lat;
-    private String lon;
-
     static BottomNavigationView navigationView;
     Fragment.SavedState state;
     @Override
