@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 //pour StopPoint
 public class Coord{
+
+
  float lat;
  float lon;
  public Coord(float lat, float lon) {

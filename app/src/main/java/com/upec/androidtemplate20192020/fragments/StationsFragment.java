@@ -13,16 +13,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.upec.androidtemplate20192020.Backend.InfoApi;
+import com.upec.androidtemplate20192020.Backend.SncfApiService;
 import com.upec.androidtemplate20192020.MainActivity;
 import com.upec.androidtemplate20192020.R;
+import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyWithoutRegionIdentifier;
 
-public class StationsFragment extends Fragment implements LocationListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class StationsFragment extends Fragment implements LocationListener  {
 
 
     TextView textView;
@@ -32,6 +42,7 @@ public class StationsFragment extends Fragment implements LocationListener {
     private static final String TAG = "LocationFragment";
     private double lon;
     private double lat;
+    private static SncfApiService SncfApiServiceInstance=sncfApiServiceSingleton();
 
     public StationsFragment() {
 
@@ -49,59 +60,98 @@ public class StationsFragment extends Fragment implements LocationListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootStationsView = inflater.inflate(R.layout.fragment_trouver_gare, container, false);
         textView=rootStationsView.findViewById(R.id.textViewStations);
-        ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
-
-        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
-        }else {
-            mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            //lon = location.getLongitude();
-            //double latitude = location.getLatitude();
-            //textView.setText("Longitude :"+Double.toString(longitude)+"Latitude :"+Double.toString(latitude));
-        }
-
         return rootStationsView;
     }
 
+    private static SncfApiService sncfApiServiceSingleton(){
+        return new Retrofit.Builder().baseUrl(InfoApi.SNCF_API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(SncfApiService.class);
+    }
+
+    public void requestObjectListNearbyWithoutRegionIdentifier(){
+        Toast.makeText(getContext(),"TEST",Toast.LENGTH_LONG).show();
+        try{
+            Call<ResponseObjectListNearbyWithoutRegionIdentifier> ObjectListNearbyWithoutRegionIdentifierCall=SncfApiServiceInstance.getObjectListNearbyWithoutRegionIdentifier();
+            ObjectListNearbyWithoutRegionIdentifierCall.enqueue(handleResponseObjectListNearbyWithoutRegionIdentifier());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    private Callback<ResponseObjectListNearbyWithoutRegionIdentifier> handleResponseObjectListNearbyWithoutRegionIdentifier(){
+        return new Callback<ResponseObjectListNearbyWithoutRegionIdentifier>() {
+            @Override
+            public void onResponse(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Response<ResponseObjectListNearbyWithoutRegionIdentifier> response) {
+                //if(!response.isSuccessful()){
+                //Toast.makeText(getActivity(),"RequestFailure",Toast.LENGTH_SHORT).show();
+                //}else{
+                  //  Toast.makeText(getContext(),"OK",Toast.LENGTH_SHORT).show();
+                //}
+            }
+            @Override
+            public void onFailure(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Throwable t) {
+               // Toast.makeText(getContext(),t.getMessage().toString(),Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
 
     @Override
     public void onResume() {
         super.onResume();
+        ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
 
-        //mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
+        }else{
+
+            if(mContext==null){
+                Log.d("mContext","null");
+            }else{
+                Log.d("mContext","is not null");
+            }
+            mLocationManager=(LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+            Location location=mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if(location!=null){
+
+                double longitude=location.getLongitude();
+                double latitude=location.getLatitude();
+
+                textView.setText(String.valueOf(longitude));
+
+            }else{
+                Log.d("Location","Null");
+
+            }
+
+        }
+
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+
+
+
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.i(TAG, "onPause");
-        mLocationManager.removeUpdates(this);
-    }
-
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i(TAG, String.valueOf(location.getLatitude()));
-        Log.i(TAG, String.valueOf(location.getLongitude()));
 
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.i(TAG, "Provider " + provider + " has now status: " + status);
+
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        Log.i(TAG, "Provider " + provider + " is enabled");
+
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        Log.i(TAG, "Provider " + provider + " is disabled");
+
     }
 }

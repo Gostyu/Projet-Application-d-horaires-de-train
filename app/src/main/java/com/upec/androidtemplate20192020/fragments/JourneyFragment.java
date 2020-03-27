@@ -38,6 +38,7 @@ import com.upec.androidtemplate20192020.views.MyAutoCompleteTextViewConfig;
  * A simple {@link Fragment} subclass.
  */
 public class JourneyFragment extends Fragment {
+
     RecyclerView recyclerView;
     ResponseStopAreas stopAreas;
     EditText editTextStart;
@@ -111,7 +112,6 @@ public class JourneyFragment extends Fragment {
         recyclerView.setAdapter(journeySncfAdapter);
         recyclerView.setVisibility(View.VISIBLE);
         saveJourney(journeySncfAdapter,journeyList);
-        //  editText.setVisibility(View.GONE);
     }
 
     private void saveJourney(JourneySncfAdapter journeySncfAdapter, List<Journey> journeyList) {

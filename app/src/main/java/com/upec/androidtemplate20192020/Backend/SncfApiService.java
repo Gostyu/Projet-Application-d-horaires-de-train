@@ -35,21 +35,22 @@ public interface SncfApiService {
     Call<ResponseCoverageZoneList> getCoverageZoneList();
     
     // Object list nearby of the coordinate
-    @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
-    @GET(PATH+"/{region_id}/"+"/coords/"+"/{lon;lat}/"+"places_nearby")
-    Call<ResponseObjectListNearbyOfCoordinate> getObjectListNearbyOfCoordinate();
+    //@Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
+    //@GET(PATH+"/{region_id}/"+"/coords/"+"/{lon;lat}/"+"places_nearby")
+    //Call<ResponseObjectListNearbyOfCoordinate> getObjectListNearbyOfCoordinate();
 
     // Object list nearby of the resource
-    @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
-    @GET(PATH+"/{region_id}/"+"/{resource_path}/"+"places_nearby")
-    Call<ResponseObjectListNearbyOfResource> getObjetListNearbyOfResource();
+    //@Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
+    //@GET(PATH+"/{region_id}/"+"/{resource_path}/"+"places_nearby")
+    //Call<ResponseObjectListNearbyOfResource> getObjetListNearbyOfResource();
+
+    //https://api.sncf.com/v1/coord/2.475551%3B48.782097/places_nearby?
+
 
     // Object list nearby of the resource without the region identifier
     @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
-    @GET("/coord/"+"{lon;lat}"+"places_nearby")
+    @GET("/coord/"+"2.475551;48.782097"+"/places_nearby")
     Call<ResponseObjectListNearbyWithoutRegionIdentifier> getObjectListNearbyWithoutRegionIdentifier();
-
-    //
 
     /**/
 
@@ -57,9 +58,6 @@ public interface SncfApiService {
     @GET(PATH+"networks/"+rerNetwork+"/physical_modes/"+physical_mode+"/stop_areas?count=250&disable_disruption=true")
     Call<ResponseStopAreas> getStopAreas();
 
-    //@Headers("Authorization:"+InfoApi.SNCF_API_KEY)
-    //@GET(PATH+"commercial_modes/commercial_mode:rer/stop_areas?count=255")
-    //Call<ResponseStopAreas> getStopsAreasByName(@Query("q") String name);
 
     /*Donne la liste des départs de trains à partir de l'id d'une gare
     * */

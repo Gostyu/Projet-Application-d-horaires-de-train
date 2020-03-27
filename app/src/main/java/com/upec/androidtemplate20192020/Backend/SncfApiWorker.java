@@ -13,6 +13,7 @@ import com.upec.androidtemplate20192020.models.Journey;
 import com.upec.androidtemplate20192020.models.ResponseCoverageZoneList;
 import com.upec.androidtemplate20192020.models.ResponseDepartures;
 import com.upec.androidtemplate20192020.models.ResponseJourneys;
+import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyWithoutRegionIdentifier;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
 
@@ -67,30 +68,27 @@ public class SncfApiWorker {
 
     /******************************************************************/
 
-
-
-
     public void requestCoverageResult(){
         Log.d("SEND ALLCOVERAGE","OK");
        // Toast.makeText(getApplicationContext(),"TEST",Toast.LENGTH_LONG).show();
        try{
-             Call <ResponseCoverageZoneList> coverageZoneListCall=SncfApiServiceInstance.getCoverageZoneList();
-             coverageZoneListCall.enqueue(handleResponseCoverageZoneList());
+             Call <ResponseObjectListNearbyWithoutRegionIdentifier> ObjectListNearbyWithoutRegionIdentifierCall=SncfApiServiceInstance.getObjectListNearbyWithoutRegionIdentifier();
+           ObjectListNearbyWithoutRegionIdentifierCall.enqueue(handleResponseObjectListNearbyWithoutRegionIdentifier());
         }catch(Exception e){
            e.printStackTrace();
        }
     }
 
-    private Callback<ResponseCoverageZoneList> handleResponseCoverageZoneList(){
+    private Callback<ResponseObjectListNearbyWithoutRegionIdentifier> handleResponseObjectListNearbyWithoutRegionIdentifier(){
 
-        return new Callback<ResponseCoverageZoneList>() {
+        return new Callback<ResponseObjectListNearbyWithoutRegionIdentifier>() {
             @Override
-            public void onResponse(Call<ResponseCoverageZoneList> call, Response<ResponseCoverageZoneList> response) {
+            public void onResponse(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Response<ResponseObjectListNearbyWithoutRegionIdentifier> response) {
 
             }
 
             @Override
-            public void onFailure(Call<ResponseCoverageZoneList> call, Throwable t) {
+            public void onFailure(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Throwable t) {
 
             }
         };
@@ -181,11 +179,6 @@ public class SncfApiWorker {
                        if(dateDepart!=null) {
                            Log.d("DATE FOR DEPARTURE", dateDepart);
                            try{
-                               //DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyyMd'T'Hms");
-                               //DateTime dateTime= DateTime.parse(dateDepart,formatter);
-                              // String hour=dateTime.toString("HH:mm");
-                              // Log.d("NEW DATE",dateTime.toString());
-                              // Log.d("NEW DATE",hour);
                            }catch(IllegalArgumentException e){
                                e.printStackTrace();
                            }
