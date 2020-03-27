@@ -3,9 +3,7 @@ package com.upec.androidtemplate20192020.Backend;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-
 import com.upec.androidtemplate20192020.fragments.JourneyFragment;
 import com.upec.androidtemplate20192020.fragments.StationsFragment;
 import com.upec.androidtemplate20192020.fragments.TrainsFragment;
@@ -16,11 +14,6 @@ import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyWithoutRegionIdentifier;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,9 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SncfApiWorker {
 
-
     Context context;
-
     static TrainsFragment trainsFragment;
     static StationsFragment stationsFragment;
     static JourneyFragment journeyFragment;
@@ -41,6 +32,8 @@ public class SncfApiWorker {
     static int MAX_RETRIES = 3;
     static ResponseStopAreas mRepsonseStopAreas;
     static SncfApiService SncfApiServiceInstance=sncfApiServiceSingleton();
+
+
    public SncfApiWorker(Fragment fragment){
        if(fragment instanceof TrainsFragment){
            trainsFragment = (TrainsFragment) fragment;
@@ -66,14 +59,14 @@ public class SncfApiWorker {
         }
     }
 
-    /******************************************************************/
 
-    public void requestCoverageResult(){
-        Log.d("SEND ALLCOVERAGE","OK");
-       // Toast.makeText(getApplicationContext(),"TEST",Toast.LENGTH_LONG).show();
+    public void requestObjectListNearbyWithoutRegionIdentifierResult(){
+
+
        try{
              Call <ResponseObjectListNearbyWithoutRegionIdentifier> ObjectListNearbyWithoutRegionIdentifierCall=SncfApiServiceInstance.getObjectListNearbyWithoutRegionIdentifier();
            ObjectListNearbyWithoutRegionIdentifierCall.enqueue(handleResponseObjectListNearbyWithoutRegionIdentifier());
+           Log.d("SncfApiWorker","requestObjectListNearbyWithoutRegionIdentifierResult()");
         }catch(Exception e){
            e.printStackTrace();
        }
@@ -84,17 +77,20 @@ public class SncfApiWorker {
         return new Callback<ResponseObjectListNearbyWithoutRegionIdentifier>() {
             @Override
             public void onResponse(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Response<ResponseObjectListNearbyWithoutRegionIdentifier> response) {
+                if(response.isSuccessful()){
+                    Log.d("SncfApiWorker","Successful response");
+                }
 
+                if(!response.isSuccessful()){
+                    Log.d("SncfApiWorker","Not successful response");
+                }
             }
-
             @Override
             public void onFailure(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Throwable t) {
 
             }
         };
     }
-
-    /*******************************************************************/
 
     private Callback<ResponseStopAreas> handleResponseAllStations() {
         return new Callback<ResponseStopAreas>() {
@@ -111,6 +107,7 @@ public class SncfApiWorker {
                     }
                     if(stationsFragment!=null){
 
+
                     }
                 }else{
                     Log.d(TAG+"Deparatures", response.raw().toString());
@@ -123,6 +120,7 @@ public class SncfApiWorker {
             }
         };
     }
+
     public static void requestDeparturesByStopAreaName(String stopAreaName){
        try{
             Call<ResponseStopAreas> StopAreasCall = SncfApiServiceInstance.getStopAreas();
@@ -152,6 +150,7 @@ public class SncfApiWorker {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseStopAreas> call, Throwable t) {
                 call.clone().enqueue(handleResponseDeparturesByStopAreaName(stopAreaName));
@@ -199,6 +198,7 @@ public class SncfApiWorker {
            }
        };
     }
+
     public void getJourneys(String from, String to){
        String stopAreaId_from="";
         String stopAreasId_to="";
@@ -257,6 +257,5 @@ public class SncfApiWorker {
     private static void sendDataTo(JourneyFragment journeyFragment, List<Journey> journeys) {
         journeyFragment.createRecylerView(journeys);
     }
-
 
 }

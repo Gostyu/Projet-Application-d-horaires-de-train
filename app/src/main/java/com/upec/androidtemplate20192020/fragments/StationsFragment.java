@@ -22,9 +22,12 @@ import androidx.fragment.app.Fragment;
 
 import com.upec.androidtemplate20192020.Backend.InfoApi;
 import com.upec.androidtemplate20192020.Backend.SncfApiService;
+import com.upec.androidtemplate20192020.Backend.SncfApiWorker;
 import com.upec.androidtemplate20192020.MainActivity;
 import com.upec.androidtemplate20192020.R;
+import com.upec.androidtemplate20192020.models.Coord;
 import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyWithoutRegionIdentifier;
+import com.upec.androidtemplate20192020.models.SavedObjectListNearbyCoordinate;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +35,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class StationsFragment extends Fragment implements LocationListener  {
 
 
@@ -40,13 +47,23 @@ public class StationsFragment extends Fragment implements LocationListener  {
     private static final int REQUEST_LOCATION = 1;
     private LocationManager mLocationManager;
     private static final String TAG = "LocationFragment";
-    private double lon;
-    private double lat;
-    private static SncfApiService SncfApiServiceInstance=sncfApiServiceSingleton();
+    private Coord coord;
+    SavedObjectListNearbyCoordinate savedObjectListNearbyCoordinate;
+    final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
+
 
     public StationsFragment() {
 
     }
+
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        savedObjectListNearbyCoordinate =new SavedObjectListNearbyCoordinate();
+        sncfApiWorker.requestObjectListNearbyWithoutRegionIdentifierResult();
+
+    }
+
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -63,42 +80,10 @@ public class StationsFragment extends Fragment implements LocationListener  {
         return rootStationsView;
     }
 
-    private static SncfApiService sncfApiServiceSingleton(){
-        return new Retrofit.Builder().baseUrl(InfoApi.SNCF_API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(SncfApiService.class);
-    }
-
-    public void requestObjectListNearbyWithoutRegionIdentifier(){
-        Toast.makeText(getContext(),"TEST",Toast.LENGTH_LONG).show();
-        try{
-            Call<ResponseObjectListNearbyWithoutRegionIdentifier> ObjectListNearbyWithoutRegionIdentifierCall=SncfApiServiceInstance.getObjectListNearbyWithoutRegionIdentifier();
-            ObjectListNearbyWithoutRegionIdentifierCall.enqueue(handleResponseObjectListNearbyWithoutRegionIdentifier());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    private Callback<ResponseObjectListNearbyWithoutRegionIdentifier> handleResponseObjectListNearbyWithoutRegionIdentifier(){
-        return new Callback<ResponseObjectListNearbyWithoutRegionIdentifier>() {
-            @Override
-            public void onResponse(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Response<ResponseObjectListNearbyWithoutRegionIdentifier> response) {
-                //if(!response.isSuccessful()){
-                //Toast.makeText(getActivity(),"RequestFailure",Toast.LENGTH_SHORT).show();
-                //}else{
-                  //  Toast.makeText(getContext(),"OK",Toast.LENGTH_SHORT).show();
-                //}
-            }
-            @Override
-            public void onFailure(Call<ResponseObjectListNearbyWithoutRegionIdentifier> call, Throwable t) {
-               // Toast.makeText(getContext(),t.getMessage().toString(),Toast.LENGTH_SHORT).show();
-            }
-        };
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
@@ -119,7 +104,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
                 double longitude=location.getLongitude();
                 double latitude=location.getLatitude();
 
-                textView.setText(String.valueOf(longitude));
+             //   textView.setText(String.valueOf(longitude));
 
             }else{
                 Log.d("Location","Null");

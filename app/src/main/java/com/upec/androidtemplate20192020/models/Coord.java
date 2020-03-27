@@ -6,18 +6,20 @@ import androidx.annotation.NonNull;
 public class Coord{
 
 
- float lat;
- float lon;
+ private double lat;
+ private double lon;
+
+
  public Coord(float lat, float lon) {
   this.lat = lat;
   this.lon = lon;
  }
 
- public float getLat() {
+ public double getLat() {
   return lat;
  }
 
- public float getLon() {
+ public double getLon() {
   return lon;
  }
 
@@ -26,4 +28,6 @@ public class Coord{
  public String toString() {
   return "Coord : {"+lat+";"+lon+"}";
  }
+
+
 }

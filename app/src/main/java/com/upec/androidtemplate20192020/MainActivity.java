@@ -82,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.trouverGare:
                 fragment=new StationsFragment();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(fragment, "locaFrag")
-                        .commit();
                 break;
         }
         return updateFragment(fragment);

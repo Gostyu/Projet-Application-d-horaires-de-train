@@ -21,10 +21,7 @@ public interface SncfApiService {
     String PATH="coverage/fr-idf/";
     String rerNetwork="network:0:741";
     String physical_mode="physical_mode:RapidTransit";
-    /**
-     * Donne la liste de toutes les gares du réseau RER sans les perturbations
-     * @return
-     */
+
 
     String PATH2="coverage/sncf/commercial_modes";
 
@@ -34,6 +31,7 @@ public interface SncfApiService {
     @GET(PATH)
     Call<ResponseCoverageZoneList> getCoverageZoneList();
 
+    //https://api.sncf.com/v1/coord/2.475551%3B48.782097/places_nearby?
 
     // Object list nearby of the resource without the region identifier
     @Headers({"Authorization:"+InfoApi.SNCF_API_KEY2,"Connection:keep-alive"})
@@ -45,7 +43,6 @@ public interface SncfApiService {
     @Headers({"Authorization:"+InfoApi.SNCF_API_KEY,"Connection:keep-alive"})
     @GET(PATH+"networks/"+rerNetwork+"/physical_modes/"+physical_mode+"/stop_areas?count=250&disable_disruption=true")
     Call<ResponseStopAreas> getStopAreas();
-
 
     /*Donne la liste des départs de trains à partir de l'id d'une gare
     * */
