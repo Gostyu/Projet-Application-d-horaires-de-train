@@ -33,8 +33,13 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class JourneyFragment extends Fragment {
+<<<<<<< HEAD
     String NAME_FRAGMENT = "JourneyFragment";
     static RecyclerView recyclerView;
+=======
+
+    RecyclerView recyclerView;
+>>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
     ResponseStopAreas stopAreas;
     EditText editTextStart;
     AutoCompleteTextView editTextEnd;
@@ -101,6 +106,17 @@ public class JourneyFragment extends Fragment {
             return false;
         }
     };
+<<<<<<< HEAD
+=======
+    public void createRecylerView(List<Journey> journeyList) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        JourneySncfAdapter journeySncfAdapter = new JourneySncfAdapter(journeyList);
+        recyclerView.setAdapter(journeySncfAdapter);
+        recyclerView.setVisibility(View.VISIBLE);
+        saveJourney(journeySncfAdapter,journeyList);
+    }
+>>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
 
     public void sendDataToDisplayFragment(List<Journey> journeyList) {
 

@@ -19,8 +19,12 @@ import android.view.MenuItem;
 
 import static android.view.View.GONE;
 
+<<<<<<< HEAD
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
+=======
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+>>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
 
     static BottomNavigationView navigationView;
     Fragment.SavedState state;
@@ -55,9 +59,12 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.trouverGare:
                 fragment=new StationsFragment();
+<<<<<<< HEAD
                 break;
             case R.id.trajetsFavoris:
                 fragment=new FavoriteJourneysFragment();
+=======
+>>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
                 break;
         }
         return updateFragment(fragment);

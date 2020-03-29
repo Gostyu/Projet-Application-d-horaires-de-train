@@ -43,7 +43,10 @@ public class TrainsFragment extends Fragment {
          * setContentView.
          */
         final View rootView = inflater.inflate(R.layout.fragment_trains, container, false);
+<<<<<<< HEAD
         editText = rootView.findViewById(R.id.editText_train);
+=======
+>>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
         recyclerView = rootView.findViewById(R.id.recyclerView_train);
         sncfApiWorker.requestAllStationsResults();
         myAutoCompleteTextView=new MyAutoCompleteTextViewConfig(getContext(),rootView.findViewById(R.id.editText_train));
@@ -88,7 +91,7 @@ public class TrainsFragment extends Fragment {
             String id = responseStopAreas.getStopAreaId(name);
             if(id!="ID NOT FOUND"){
                 Log.d(TAG,name+":"+id);
-             //   SncfApiWorker.getDeparturesByStopAreaIdResults(SncfApiWorker.getDeparturesByStopAreaId(id));
+
             }
         }
     }
@@ -98,7 +101,7 @@ public class TrainsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new horaireSncfAdapter(departureList));
         recyclerView.setVisibility(View.VISIBLE);
-      //  editText.setVisibility(View.GONE);
+
     }
 
 }

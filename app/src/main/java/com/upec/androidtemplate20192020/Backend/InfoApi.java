@@ -5,7 +5,7 @@ public interface InfoApi {
     String SNCF_API_KEY="3bb79fa0-9932-4eaf-89ff-6a3c6aa12710";
     String SNCF_API_URL="https://api.sncf.com/v1/";
     String SNCF_API_KEY2="2af0c57f-7db5-47bb-ba7a-a726db38b335";
-   /// String SNCF_API_URL="https://api.sncf.com/v1/";
+
 
 
 }
