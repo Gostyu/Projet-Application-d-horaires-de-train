@@ -11,18 +11,21 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.upec.androidtemplate20192020.R;
+import com.upec.androidtemplate20192020.models.JourneyInfo;
 
 import java.util.List;
 
 public class JourneySncfViewHolder extends RecyclerView.ViewHolder {
     CardView cardView;
-    TextView textView;
+    TextView textView_timeJourney;
+    TextView textView_arrivalTime;
     ImageView imageView;
     List<ImageView> imageViews;
     public JourneySncfViewHolder(@NonNull View itemView,OnClickImageListener listener) {
         super(itemView);
         cardView = itemView.findViewById(R.id.cardViewJourney);
-        textView=itemView.findViewById(R.id.timeJourney);
+        textView_timeJourney=itemView.findViewById(R.id.timeJourney);
+        textView_arrivalTime=itemView.findViewById(R.id.arrival_timeJourney);
         imageView=itemView.findViewById(R.id.saveJourney);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,8 +39,11 @@ public class JourneySncfViewHolder extends RecyclerView.ViewHolder {
             }
         });
     }
+    public void updateUI(String time,String arrivalTime){
+        textView_timeJourney.setText(time);
+        textView_arrivalTime.setText("Arrivée :"+arrivalTime);
+    }
+    public void displayInfos(String infos){
 
-    public void updateUI(String time){
-        textView.setText(time);
     }
 }

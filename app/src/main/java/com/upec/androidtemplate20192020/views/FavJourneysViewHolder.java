@@ -15,15 +15,19 @@ public class FavJourneysViewHolder extends RecyclerView.ViewHolder {
     TextView textView;
     ImageView imageView;
     TextView descriptionTv;
-    //OnDeleteJourneyListener mListener;
-    public FavJourneysViewHolder(@NonNull View itemView) {
+    public FavJourneysViewHolder(@NonNull View itemView,OnClickImageListener listener) {
         super(itemView);
         textView=itemView.findViewById(R.id.horaireTV_FT);
         imageView=itemView.findViewById(R.id.deleteJourney);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(listener!=null){
+                   int pos=getAdapterPosition();
+                   if(pos!=RecyclerView.NO_POSITION){
+                       listener.onDeleteSavedJourney(pos);
+                   }
+                }
             }
         });
     }

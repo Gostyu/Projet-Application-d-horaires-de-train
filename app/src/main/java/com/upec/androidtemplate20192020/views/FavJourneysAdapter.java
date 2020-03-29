@@ -15,6 +15,12 @@ import java.util.List;
 
 public class FavJourneysAdapter extends RecyclerView.Adapter<FavJourneysViewHolder> {
     List<Journey> mjourneyList;
+    static OnClickImageListener listener;
+
+    public void setOnClickImageListener(OnClickImageListener listener) {
+        FavJourneysAdapter.listener = listener;
+    }
+
     public FavJourneysAdapter(List<Journey> journeyList){
         mjourneyList=journeyList;
     }
@@ -24,7 +30,7 @@ public class FavJourneysAdapter extends RecyclerView.Adapter<FavJourneysViewHold
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.rv_item_fav_journeys, parent, false);
-        return new FavJourneysViewHolder(view);
+        return new FavJourneysViewHolder(view,listener);
     }
     @Override
     public void onBindViewHolder(@NonNull FavJourneysViewHolder viewHolder, int position) {

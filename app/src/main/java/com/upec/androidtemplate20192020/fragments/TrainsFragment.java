@@ -1,6 +1,7 @@
 package com.upec.androidtemplate20192020.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
@@ -35,7 +37,7 @@ public class TrainsFragment extends Fragment {
     final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
     TextView messageTv;
     //List<StopArea> stopAreasList = null;
-
+    List<String> stopAreaNames;
     public TrainsFragment() {
         // Required empty public constructor
     }
@@ -75,6 +77,7 @@ public class TrainsFragment extends Fragment {
      * Mets la liste des gares dans l'editText pour l'autocompletion
      */
     public void getAllStationsResults(ResponseStopAreas response){
+        stopAreaNames=response.getStop_areasNames();
         myAutoCompleteTextView.autoCompleteTextViewData(response.getStop_areasNames());
     }
     /*
@@ -84,16 +87,25 @@ public class TrainsFragment extends Fragment {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if(actionId==EditorInfo.IME_ACTION_SEARCH||actionId==EditorInfo.IME_ACTION_DONE) {
-                if(editText.getText().toString()!=""){
-                    Log.d("onEditor", editText.getText().toString());
-                   searchDepartures(editText.getText().toString());
+                String stationName=editText.getText().toString();
+                if(stationName!=""){
+                    lauchSearchName(stationName);
+                    Log.d("onEditor", stationName);
+                  // searchDepartures(stationName);
                 }
                 return true;
             }
             return false;
         }
     };
-
+    private void lauchSearchName(String stationName){
+        if(stopAreaNames!=null)
+            for(String s:stopAreaNames){
+                if(s.toLowerCase().contains(stationName.toLowerCase())){
+                    searchDepartures(s);
+                }
+            }
+    }
     public void searchDepartures(String stopAreaName){
         Log.d("SEARCHDEPARTS","OK");
        SncfApiWorker.requestDeparturesByStopAreaName(stopAreaName);
@@ -117,6 +129,13 @@ public class TrainsFragment extends Fragment {
         recyclerView.setAdapter(new horaireSncfAdapter(departureList));
         recyclerView.setVisibility(View.VISIBLE);
         messageTv.setVisibility(View.GONE);
+        closeKeyboard();
+    }
+
+    private void closeKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View v = getView();
+        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),0);
     }
 
     @Override

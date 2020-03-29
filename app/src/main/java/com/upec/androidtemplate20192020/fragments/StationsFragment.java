@@ -49,7 +49,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
     private static final String TAG = "LocationFragment";
     private Coord coord;
     SavedObjectListNearbyCoordinate savedObjectListNearbyCoordinate;
-    final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
+  //  final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
     Location location;
 
     public StationsFragment() {
@@ -59,7 +59,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         savedObjectListNearbyCoordinate =new SavedObjectListNearbyCoordinate();
-        sncfApiWorker.requestObjectListNearbyWithoutRegionIdentifierResult();
+    //    sncfApiWorker.requestObjectListNearbyWithoutRegionIdentifierResult();
     }
 
 
@@ -68,7 +68,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.mContext=getActivity();
-       // mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Nullable
@@ -93,18 +93,20 @@ public class StationsFragment extends Fragment implements LocationListener  {
                 Log.d("MCONTEXT LOCATION","IS NULL");
             }else{
                 Log.d("MCONTEXT LOCATION","NOT NULL");
+                if(mLocationManager!=null){
+                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                    if(location!=null){
+                        double lon = location.getLongitude();
+                        double latitude = location.getLatitude();
+                        textView.setText("Longitude :"+Double.toString(lon)+"Latitude :"+Double.toString(latitude));
+                    }else{
+                        Log.d("LOCATION","Cest nul");
+                    }
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                }
             }
-            mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-            location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(location!=null){
-                double lon = location.getLongitude();
-                double latitude = location.getLatitude();
-                textView.setText("Longitude :"+Double.toString(lon)+"Latitude :"+Double.toString(latitude));
-            }else{
-                Log.d("LOCATION","Cest nul");
-            }
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
 
     }

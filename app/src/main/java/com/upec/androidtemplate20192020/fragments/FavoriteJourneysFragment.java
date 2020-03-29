@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.upec.androidtemplate20192020.R;
 import com.upec.androidtemplate20192020.models.Journey;
 import com.upec.androidtemplate20192020.models.SavedJourneys;
 import com.upec.androidtemplate20192020.views.FavJourneysAdapter;
+import com.upec.androidtemplate20192020.views.OnClickImageListener;
 
 import java.util.List;
 
@@ -100,8 +103,32 @@ public class FavoriteJourneysFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         Log.d("CRV_FJF",journeyList.toString());
         FavJourneysAdapter adapter = new FavJourneysAdapter(journeyList);
+        deleteSaveJourney(adapter);
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         //  editText.setVisibility(View.GONE);
+    }
+
+    private void deleteSaveJourney(FavJourneysAdapter adapter) {
+        adapter.setOnClickImageListener(new OnClickImageListener() {
+            @Override
+            public void onSaveJourney(int position) {
+
+            }
+            @Override
+            public void onDeleteSavedJourney(int position) {
+                mSavedJourneys.remove(position);
+                if(mSavedJourneys.size()==0){
+                    textViewMessage.setText("aucun trajet à suivre".toUpperCase());
+                    Log.d("DSJ","aucun trajet à suivre".toUpperCase());
+                    textViewMessage.setVisibility(View.VISIBLE);
+                }
+                displayMessage("Trajet supprimé".toUpperCase());
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+    private void displayMessage(String message){
+        Toast.makeText(getContext(),message, Toast.LENGTH_LONG).show();
     }
 }

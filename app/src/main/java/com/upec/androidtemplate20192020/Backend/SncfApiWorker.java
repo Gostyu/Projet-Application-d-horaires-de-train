@@ -50,15 +50,6 @@ public class SncfApiWorker {
                  .build().create(SncfApiService.class);
     }
 
-    public void requestAllStationsResults() {
-       Log.d("SEND ALLSTATIONSRES","OK");
-        try{
-            Call <ResponseStopAreas> stopAreasCall = SncfApiServiceInstance.getStopAreas();
-            stopAreasCall.enqueue(handleResponseAllStations());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
 
     public void requestObjectListNearbyWithoutRegionIdentifierResult(){
@@ -90,7 +81,15 @@ public class SncfApiWorker {
             }
         };
     }
-
+    public void requestAllStationsResults() {
+        Log.d("SEND ALLSTATIONSRES","OK");
+        try{
+            Call <ResponseStopAreas> stopAreasCall = SncfApiServiceInstance.getStopAreas();
+            stopAreasCall.enqueue(handleResponseAllStations());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     private Callback<ResponseStopAreas> handleResponseAllStations() {
         return new Callback<ResponseStopAreas>() {
             @Override
@@ -105,7 +104,6 @@ public class SncfApiWorker {
                         journeyFragment.getAllStationsResults(response.body());
                     }
                     if(stationsFragment!=null){
-
 
                     }
                 }else{

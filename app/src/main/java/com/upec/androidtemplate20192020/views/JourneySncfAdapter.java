@@ -47,7 +47,8 @@ public class JourneySncfAdapter extends RecyclerView.Adapter<JourneySncfViewHold
     @Override
     public void onBindViewHolder(@NonNull JourneySncfViewHolder vh, int position) {
         String timeJourney = journeyList.get(position).getTotalJourneyTime();
-        vh.updateUI(timeJourney);
+        String arrivalTimeJourney=journeyList.get(position).getArrival_date_time();
+        vh.updateUI(timeJourney,arrivalTimeJourney);
     }
 
     @Override

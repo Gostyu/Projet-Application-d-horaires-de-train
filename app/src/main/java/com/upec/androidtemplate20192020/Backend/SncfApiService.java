@@ -54,4 +54,6 @@ public interface SncfApiService {
     @GET(PATH+"journeys?data_freshness=realtime")
     Call<ResponseJourneys> getJourneys(@Query("from") String from, @Query("to") String to);
 
+
+
 }

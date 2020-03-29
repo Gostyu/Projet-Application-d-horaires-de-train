@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.upec.androidtemplate20192020.Backend.SncfApiWorker;
 import com.upec.androidtemplate20192020.R;
 import com.upec.androidtemplate20192020.models.Journey;
@@ -42,7 +43,7 @@ public class JourneyFragment extends Fragment {
     final SncfApiWorker sncfApiWorker = new SncfApiWorker(this);
     static SavedJourneys savedJourneys;
     public static String DATA_TAG = "JOURNEYS";
-
+    List<String> stopAreaNames;
     public JourneyFragment() {
         // Required empty public constructor
     }
@@ -76,6 +77,7 @@ public class JourneyFragment extends Fragment {
     }
 
     public void getAllStationsResults(ResponseStopAreas response) {
+        stopAreaNames=response.getStop_areasNames();
         myAutoCompleteTextViewConfig.autoCompleteTextViewData(response.getStop_areasNames());
         myAutoCompleteTextViewConfig2.autoCompleteTextViewData(response.getStop_areasNames());
     }
@@ -92,6 +94,8 @@ public class JourneyFragment extends Fragment {
                 to = editTextEnd.getText().toString();
                 if (from != "" && to != "") {
                     Log.d("onEditor in JFragment", from + " " + to);
+                    from=getStationName(from);
+                    to=getStationName(to);
                     sncfApiWorker.getJourneys(from, to);
                 }
                 return true;
@@ -99,8 +103,16 @@ public class JourneyFragment extends Fragment {
             return false;
         }
     };
-
-
+    private String getStationName(String userInput){
+        if(stopAreaNames!=null) {
+            for (String s : stopAreaNames) {
+                if (s.toLowerCase().contains(userInput.toLowerCase())) {
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
     public void createRecylerView(List<Journey> journeyList) {
          RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
          recyclerView.setLayoutManager(layoutManager);
@@ -116,11 +128,20 @@ public class JourneyFragment extends Fragment {
              public void onSaveJourney(int position) {
                  Log.d("ONSAVE IN JF","ok bien sauvegardé");
                  savedJourneys.addJourney(journeyList.get(position));
-                 Toast.makeText(getActivity(),"TRAJET SAUVEGARDE",Toast.LENGTH_LONG).show();
+                 displaySuccessMessage("trajet sauvegardé".toUpperCase());
                  displaySaveJourneys(savedJourneys);
+             }
+             @Override
+             public void onDeleteSavedJourney(int position) {
+
              }
          });
      }
+
+    private void displaySuccessMessage(String message) {
+        Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
+    }
+
     private static void displaySaveJourneys(SavedJourneys savedJourneys) {
         Log.d("DISPLAY", savedJourneys.getJourneys().toString());
             FavoriteJourneysFragment.setSaveJourney(savedJourneys);
