@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidTemplate20192020.iml" filepath="$PROJECT_DIR$/AndroidTemplate20192020.iml" group="AndroidTemplate20192020" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="AndroidTemplate20192020/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/groupe7-app.iml" filepath="$PROJECT_DIR$/app/groupe7-app.iml" group="AndroidTemplate20192020/app" />
     </modules>
   </component>
 </project>

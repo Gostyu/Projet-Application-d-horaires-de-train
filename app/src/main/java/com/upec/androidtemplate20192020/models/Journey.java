@@ -69,13 +69,13 @@ public class Journey implements Parcelable{
         int SEC_ONE_MIN=60;
         int SEC_ONE_HOUR=3600;
         if(duration!=0) {
-            //pour un trajet d'au moins une heure
+            //pour un trajet d'au minimum une heure
             if(duration>=SEC_ONE_HOUR){
                 hour= String.valueOf(duration/SEC_ONE_HOUR);
                 minutes=String.valueOf((duration/SEC_ONE_MIN)%SEC_ONE_MIN);
                 str.append(hour+"h"+minutes+"min");
             }
-            //pour un trajet d'au moins une heure
+            //pour un trajet d'au maximum une heure
             if(duration>SEC_ONE_MIN && duration<SEC_ONE_HOUR){
                 minutes=String.valueOf(duration/SEC_ONE_MIN);
                 seconds=String.valueOf(duration%SEC_ONE_MIN);

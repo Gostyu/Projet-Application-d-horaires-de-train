@@ -14,10 +14,7 @@ import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseObjectListNearbyWithoutRegionIdentifier;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
-<<<<<<< HEAD
 
-=======
->>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
 import java.util.List;
 
 import retrofit2.Call;
@@ -233,7 +230,9 @@ public class SncfApiWorker {
                         Log.d("HRJ OK", response.raw().toString());
                         Log.d("HRJ OK", response.body().toString());
                         Log.d("HRJ OK", "count of journeys :" + response.body().getJourneys().size());
-                        if (response.body().getJourneys().size() > 0) {
+                        if(response.body().getJourneys()==null){
+                            Log.d("HRJ OK", "timeJourney = IMPOSSIBLE");
+                        }else{
                             for (Journey j : response.body().getJourneys()) {
                                 Log.d("HRJ OK", "timeJourney (duration) :" + j.getTotalJourneyTime());
                             }

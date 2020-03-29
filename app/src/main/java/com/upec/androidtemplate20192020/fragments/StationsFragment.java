@@ -84,7 +84,6 @@ public class StationsFragment extends Fragment implements LocationListener  {
     @Override
     public void onResume() {
         super.onResume();
-<<<<<<< HEAD
         ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
 
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -100,7 +99,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
             mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
             Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if(location!=null){
-                lon = location.getLongitude();
+                double lon = location.getLongitude();
                 double latitude = location.getLatitude();
                 textView.setText("Longitude :"+Double.toString(lon)+"Latitude :"+Double.toString(latitude));
             }else{
@@ -109,37 +108,6 @@ public class StationsFragment extends Fragment implements LocationListener  {
         }
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-    }
-=======
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
-        }else{
->>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
-
-            if(mContext==null){
-                Log.d("mContext","null");
-            }else{
-                Log.d("mContext","is not null");
-            }
-            mLocationManager=(LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-            Location location=mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if(location!=null){
-
-                double longitude=location.getLongitude();
-                double latitude=location.getLatitude();
-
-             //   textView.setText(String.valueOf(longitude));
-
-            }else{
-                Log.d("Location","Null");
-            }
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
 
     }
 

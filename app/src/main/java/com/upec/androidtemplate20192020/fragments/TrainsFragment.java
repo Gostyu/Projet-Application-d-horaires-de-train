@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,8 +32,15 @@ public class TrainsFragment extends Fragment {
     RecyclerView recyclerView;
     final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
     //List<StopArea> stopAreasList = null;
+
     public TrainsFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sncfApiWorker.requestAllStationsResults();
     }
 
     @Override
@@ -43,17 +51,19 @@ public class TrainsFragment extends Fragment {
          * setContentView.
          */
         final View rootView = inflater.inflate(R.layout.fragment_trains, container, false);
-<<<<<<< HEAD
-        editText = rootView.findViewById(R.id.editText_train);
-=======
->>>>>>> 40e29f9a7cd6c2946ff3ae8d64131658d5c7098c
-        recyclerView = rootView.findViewById(R.id.recyclerView_train);
-        sncfApiWorker.requestAllStationsResults();
-        myAutoCompleteTextView=new MyAutoCompleteTextViewConfig(getContext(),rootView.findViewById(R.id.editText_train));
-        myAutoCompleteTextView.setListener(onEditorActionListener);
-        editText=myAutoCompleteTextView.getEditText();
+
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        editText = getActivity().findViewById(R.id.editText_train);
+        recyclerView = getActivity().findViewById(R.id.recyclerView_train);
+        myAutoCompleteTextView=new MyAutoCompleteTextViewConfig(getContext(),getActivity().findViewById(R.id.editText_train));
+        myAutoCompleteTextView.setListener(onEditorActionListener);
+        editText=myAutoCompleteTextView.getEditText();
     }
 
     /**
@@ -63,7 +73,7 @@ public class TrainsFragment extends Fragment {
         myAutoCompleteTextView.autoCompleteTextViewData(response.getStop_areasNames());
     }
     /*
-
+       le listener pour les edittexts
      */
     TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() {
         @Override
@@ -104,4 +114,9 @@ public class TrainsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        myAutoCompleteTextView.setListener(null);
+    }
 }
