@@ -50,7 +50,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
     private Coord coord;
     SavedObjectListNearbyCoordinate savedObjectListNearbyCoordinate;
     final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
-
+    Location location;
 
     public StationsFragment() {
 
@@ -60,7 +60,6 @@ public class StationsFragment extends Fragment implements LocationListener  {
         super.onCreate(savedInstanceState);
         savedObjectListNearbyCoordinate =new SavedObjectListNearbyCoordinate();
         sncfApiWorker.requestObjectListNearbyWithoutRegionIdentifierResult();
-
     }
 
 
@@ -69,7 +68,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.mContext=getActivity();
-        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+       // mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Nullable
@@ -85,7 +84,6 @@ public class StationsFragment extends Fragment implements LocationListener  {
     public void onResume() {
         super.onResume();
         ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
-
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                 (mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -97,7 +95,7 @@ public class StationsFragment extends Fragment implements LocationListener  {
                 Log.d("MCONTEXT LOCATION","NOT NULL");
             }
             mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if(location!=null){
                 double lon = location.getLongitude();
                 double latitude = location.getLatitude();
@@ -105,15 +103,19 @@ public class StationsFragment extends Fragment implements LocationListener  {
             }else{
                 Log.d("LOCATION","Cest nul");
             }
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
+        if(location!=null) {
+            double lon = location.getLongitude();
+            double latitude = location.getLatitude();
+            textView.setText("Longitude :" + Double.toString(lon) + "Latitude :" + Double.toString(latitude));
+        }
     }
 
     @Override

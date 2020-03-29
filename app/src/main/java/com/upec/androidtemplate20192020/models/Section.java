@@ -24,6 +24,13 @@ public class Section implements Parcelable {
         this.display_informations = display_informations;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "type:"+type+",\nduration :"+duration+",\nmode:"+mode+
+                " \n,display_informations:{"+(display_informations!=null?display_informations.toString():"pas d'infos")+"}";
+    }
+
     protected Section(Parcel in) {
         type = in.readString();
         id = in.readString();
@@ -42,12 +49,6 @@ public class Section implements Parcelable {
             return new Section[size];
         }
     };
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "type:"+type+" duration :"+duration+", mode:"+mode;
-    }
 
     @Override
     public int describeContents() {

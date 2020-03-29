@@ -63,7 +63,6 @@ public class SncfApiWorker {
 
     public void requestObjectListNearbyWithoutRegionIdentifierResult(){
 
-
        try{
              Call <ResponseObjectListNearbyWithoutRegionIdentifier> ObjectListNearbyWithoutRegionIdentifierCall=SncfApiServiceInstance.getObjectListNearbyWithoutRegionIdentifier();
            ObjectListNearbyWithoutRegionIdentifierCall.enqueue(handleResponseObjectListNearbyWithoutRegionIdentifier());
@@ -81,7 +80,6 @@ public class SncfApiWorker {
                 if(response.isSuccessful()){
                     Log.d("SncfApiWorker","Successful response");
                 }
-
                 if(!response.isSuccessful()){
                     Log.d("SncfApiWorker","Not successful response");
                 }
@@ -122,6 +120,10 @@ public class SncfApiWorker {
         };
     }
 
+    /**
+     * Fait la requête pour avoir les départs d'une gare
+     * @param stopAreaName
+     */
     public static void requestDeparturesByStopAreaName(String stopAreaName){
        try{
             Call<ResponseStopAreas> StopAreasCall = SncfApiServiceInstance.getStopAreas();
@@ -131,6 +133,11 @@ public class SncfApiWorker {
        }
     }
 
+    /**
+     * gère la réponse de la requete pour avoir les départs d'une gare
+     * @param stopAreaName
+     * @return
+     */
     private static Callback<ResponseStopAreas> handleResponseDeparturesByStopAreaName(String stopAreaName) {
         return new Callback<ResponseStopAreas>() {
             @Override
@@ -151,13 +158,17 @@ public class SncfApiWorker {
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseStopAreas> call, Throwable t) {
                 call.clone().enqueue(handleResponseDeparturesByStopAreaName(stopAreaName));
             }
         };
    }
+
+    /**
+     *
+     * @param id
+     */
     private static void requestDeparturesByStopAreaId(String id){
        try{
            Call<ResponseDepartures> departuresCall= SncfApiServiceInstance.getDeparturesFromStopAreaId(id);
@@ -166,6 +177,11 @@ public class SncfApiWorker {
            e.printStackTrace();
        }
     }
+
+    /**
+     *
+     * @return
+     */
     private static Callback<ResponseDepartures> handleResponseDeparturesByStopAreaId(){
        return new Callback<ResponseDepartures>() {
            @Override
@@ -200,6 +216,11 @@ public class SncfApiWorker {
        };
     }
 
+    /**
+     *
+     * @param from
+     * @param to
+     */
     public void getJourneys(String from, String to){
        String stopAreaId_from="";
         String stopAreasId_to="";
@@ -235,16 +256,15 @@ public class SncfApiWorker {
                         }else{
                             for (Journey j : response.body().getJourneys()) {
                                 Log.d("HRJ OK", "timeJourney (duration) :" + j.getTotalJourneyTime());
+                                Log.d("HRJ OK", "infos :" +j.showInfos());
                             }
-                           // journeyFragment.sendDataToDisplayFragment(response.body().getJourneys());
                             sendDataTo(journeyFragment, response.body().getJourneys());
+                           // Log.d("HRJ OK", "infos :" +response.body().getJourneys());
+
+                            Log.d("HRJ OK", "count of journeys :" + String.valueOf(response.body().getJourneys().size()));
+                            Log.d("HRJ OK", response.raw().toString());
                         }
-                        //journeyFragment
                     }
-                    Log.d("HRJ OK", response.raw().toString());
-                    Log.d("HRJ OK", "count of journeys :" + String.valueOf(response.body().getJourneys().size()));
-                    //journeyFragment
-                    // sendDataTo(journeyFragment,response.body().getJourneys());
                 }else{
                     Log.d("HRJ",response.raw().toString());
                 }
@@ -257,6 +277,11 @@ public class SncfApiWorker {
        };
     }
 
+    /**
+     *
+     * @param journeyFragment
+     * @param journeys
+     */
     private static void sendDataTo(JourneyFragment journeyFragment, List<Journey> journeys) {
         //journeyFragment.sendDataToDisplayFragment(journeys);
          journeyFragment.createRecylerView(journeys);

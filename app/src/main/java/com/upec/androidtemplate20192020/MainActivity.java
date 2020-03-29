@@ -1,5 +1,8 @@
 package com.upec.androidtemplate20192020;
 
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;

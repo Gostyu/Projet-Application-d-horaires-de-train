@@ -5,8 +5,9 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 public class JourneyInfo implements Parcelable {
     public String network;
     public String direction;
@@ -16,9 +17,9 @@ public class JourneyInfo implements Parcelable {
     public String color;
     public String code;
     public String description;
-    public List<String> equipments;
+    //public List<String> equipments;
 
-    public JourneyInfo(String network, String direction, String commercial_mode, String physical_mode, String label, String color, String code, String description, List<String> equipments) {
+    public JourneyInfo(String network, String direction, String commercial_mode, String physical_mode, String label, String color, String code, String description) {
         this.network = network;
         this.direction = direction;
         this.commercial_mode = commercial_mode;
@@ -27,7 +28,12 @@ public class JourneyInfo implements Parcelable {
         this.color = color;
         this.code = code;
         this.description = description;
-        this.equipments = equipments;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "direction: "+direction+ ", network :"+network+", code: "+code+" ";
     }
 
     protected JourneyInfo(Parcel in) {
@@ -39,7 +45,6 @@ public class JourneyInfo implements Parcelable {
         color = in.readString();
         code = in.readString();
         description = in.readString();
-        equipments = in.createStringArrayList();
     }
 
     @Override
@@ -52,7 +57,6 @@ public class JourneyInfo implements Parcelable {
         dest.writeString(color);
         dest.writeString(code);
         dest.writeString(description);
-        dest.writeStringList(equipments);
     }
 
     @Override
@@ -71,10 +75,4 @@ public class JourneyInfo implements Parcelable {
             return new JourneyInfo[size];
         }
     };
-
-    @NonNull
-    @Override
-    public String toString() {
-        return direction+ " ";
-    }
 }

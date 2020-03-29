@@ -28,7 +28,7 @@ public class horaireSncfViewHolder extends RecyclerView.ViewHolder {
         horaireTv.setText(horaire +" pos "+ itemId);
     }
     public void updateUI(String directionName, String horaire){
-        directionTv.setText(directionName);
+        directionTv.setText("Direction : "+directionName);
         horaireTv.setText(horaire);
     }
 }

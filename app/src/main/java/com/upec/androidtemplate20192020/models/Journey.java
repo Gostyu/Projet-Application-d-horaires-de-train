@@ -31,7 +31,15 @@ public class Journey implements Parcelable{
         this.durations=durations;
         this.arrival_date_time=arrival_date_time;
     }
-
+    public String showInfos(){
+        StringBuilder infos=new StringBuilder();
+        for(Section s: sections){
+            if(s.display_informations!=null){
+                infos.append(s.display_informations.toString());
+            }
+        }
+        return "NOT FOUND";
+    }
 
     protected Journey(Parcel in) {
         duration = in.readInt();
@@ -39,22 +47,10 @@ public class Journey implements Parcelable{
         arrival_date_time = in.readString();
     }
 
-    public static final Creator<Journey> CREATOR = new Creator<Journey>() {
-        @Override
-        public Journey createFromParcel(Parcel in) {
-            return new Journey(in);
-        }
-
-        @Override
-        public Journey[] newArray(int size) {
-            return new Journey[size];
-        }
-    };
-
     @NonNull
     @Override
     public String toString() {
-        return "duration :" +duration+", arrival datetime :"+arrival_date_time+", durations : "+durations.toString()+", sections :"+sections.toString();
+        return "duration :" +duration+"\n, arrival datetime :"+arrival_date_time+"\n, durations : "+durations.toString()+",\n sections :"+sections.toString();
     }
 
     public List<Section> getSections() {
@@ -101,6 +97,18 @@ public class Journey implements Parcelable{
         }
         return "duration :" +duration+", arrival datetime :"+arrival_date_time+", durations : "+durations.toString();
     }
+
+    public static final Creator<Journey> CREATOR = new Creator<Journey>() {
+        @Override
+        public Journey createFromParcel(Parcel in) {
+            return new Journey(in);
+        }
+
+        @Override
+        public Journey[] newArray(int size) {
+            return new Journey[size];
+        }
+    };
 
     @Override
     public int describeContents() {

@@ -1,5 +1,7 @@
 package com.upec.androidtemplate20192020.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,6 +33,7 @@ public class TrainsFragment extends Fragment {
     MyAutoCompleteTextViewConfig myAutoCompleteTextView;
     RecyclerView recyclerView;
     final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
+    TextView messageTv;
     //List<StopArea> stopAreasList = null;
 
     public TrainsFragment() {
@@ -60,10 +63,12 @@ public class TrainsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         editText = getActivity().findViewById(R.id.editText_train);
+        messageTv=getActivity().findViewById(R.id.messageTv_train);
         recyclerView = getActivity().findViewById(R.id.recyclerView_train);
         myAutoCompleteTextView=new MyAutoCompleteTextViewConfig(getContext(),getActivity().findViewById(R.id.editText_train));
         myAutoCompleteTextView.setListener(onEditorActionListener);
         editText=myAutoCompleteTextView.getEditText();
+
     }
 
     /**
@@ -111,7 +116,7 @@ public class TrainsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new horaireSncfAdapter(departureList));
         recyclerView.setVisibility(View.VISIBLE);
-
+        messageTv.setVisibility(View.GONE);
     }
 
     @Override
