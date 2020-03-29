@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
+    android:background="@color/colorPrimary"
     >
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -22,7 +23,7 @@
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        app:labelVisibilityMode="labeled"
         android:background="@color/cardview_light_background"
         app:menu="@menu/menu_main"
         >

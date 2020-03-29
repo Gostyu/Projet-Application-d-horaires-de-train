@@ -1,7 +1,6 @@
 package com.upec.androidtemplate20192020.views;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ public class horaireSncfAdapter extends RecyclerView.Adapter<horaireSncfViewHold
     public horaireSncfViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context=parent.getContext();
         LayoutInflater inflater=LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.stations_rv_item, parent,false);
+        View view = inflater.inflate(R.layout.rv_item_stations, parent,false);
         return new horaireSncfViewHolder(view);
     }
 

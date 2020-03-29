@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.upec.androidtemplate20192020.R;
-import com.upec.androidtemplate20192020.models.Departure;
 import com.upec.androidtemplate20192020.models.Journey;
 
 import java.util.List;
@@ -40,7 +39,7 @@ public class JourneySncfAdapter extends RecyclerView.Adapter<JourneySncfViewHold
     public JourneySncfViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.journeys_rv_item, parent, false);
+        View view = inflater.inflate(R.layout.rv_item_journeys, parent, false);
         return new JourneySncfViewHolder(view,listener);
     }
 

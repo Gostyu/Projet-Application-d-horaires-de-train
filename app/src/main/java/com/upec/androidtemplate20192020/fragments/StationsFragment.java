@@ -40,7 +40,7 @@ public class StationsFragment extends Fragment implements LocationListener {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.mContext=context;
+        this.mContext=getActivity();
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
     }
 
@@ -49,20 +49,6 @@ public class StationsFragment extends Fragment implements LocationListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootStationsView = inflater.inflate(R.layout.fragment_trouver_gare, container, false);
         textView=rootStationsView.findViewById(R.id.textViewStations);
-        ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
-
-        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
-        }else {
-            mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            //lon = location.getLongitude();
-            //double latitude = location.getLatitude();
-            //textView.setText("Longitude :"+Double.toString(longitude)+"Latitude :"+Double.toString(latitude));
-        }
-
         return rootStationsView;
     }
 
@@ -70,9 +56,30 @@ public class StationsFragment extends Fragment implements LocationListener {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
 
-        //mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity() , new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
+        }else {
+            if(mContext==null){
+                Log.d("MCONTEXT LOCATION","IS NULL");
+            }else{
+                Log.d("MCONTEXT LOCATION","NOT NULL");
+            }
+            mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(location!=null){
+                lon = location.getLongitude();
+                double latitude = location.getLatitude();
+                textView.setText("Longitude :"+Double.toString(lon)+"Latitude :"+Double.toString(latitude));
+            }else{
+                Log.d("LOCATION","Cest nul");
+            }
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
     @Override

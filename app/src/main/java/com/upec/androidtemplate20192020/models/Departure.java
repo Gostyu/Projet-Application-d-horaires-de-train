@@ -1,5 +1,7 @@
 package com.upec.androidtemplate20192020.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,7 +16,7 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.ArrayList;
 
-public class Departure {
+public class Departure implements Parcelable {
  private Route route;
  private StopPoint stop_point;
 private StopDateTime stop_date_time;
@@ -23,6 +25,24 @@ private StopDateTime stop_date_time;
   this.stop_point = stop_point;
   this.stop_date_time=time;
  }
+
+ protected Departure(Parcel in) {
+  route = in.readParcelable(Route.class.getClassLoader());
+  stop_point = in.readParcelable(StopPoint.class.getClassLoader());
+  stop_date_time = in.readParcelable(StopDateTime.class.getClassLoader());
+ }
+
+ public static final Creator<Departure> CREATOR = new Creator<Departure>() {
+  @Override
+  public Departure createFromParcel(Parcel in) {
+   return new Departure(in);
+  }
+
+  @Override
+  public Departure[] newArray(int size) {
+   return new Departure[size];
+  }
+ };
 
  @NonNull
  @Override
@@ -46,6 +66,18 @@ private StopDateTime stop_date_time;
    e.printStackTrace();
   }
   return null;
+ }
+
+ @Override
+ public int describeContents() {
+  return 0;
+ }
+
+ @Override
+ public void writeToParcel(Parcel dest, int flags) {
+  dest.writeParcelable(route, flags);
+  dest.writeParcelable(stop_point, flags);
+  dest.writeParcelable(stop_date_time, flags);
  }
  /*public String getDepartureHour() {
   DateTime dateTime = new DateTime(getStopDateTime());

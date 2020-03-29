@@ -4,7 +4,6 @@ package com.upec.androidtemplate20192020.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ComponentActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,31 +20,30 @@ import android.widget.Toast;
 
 import com.upec.androidtemplate20192020.Backend.SncfApiWorker;
 import com.upec.androidtemplate20192020.R;
-import com.upec.androidtemplate20192020.models.Departure;
 import com.upec.androidtemplate20192020.models.Journey;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.SavedJourneys;
 import com.upec.androidtemplate20192020.views.JourneySncfAdapter;
 import com.upec.androidtemplate20192020.views.MyAutoCompleteTextViewConfig;
 import com.upec.androidtemplate20192020.views.OnClickImageListener;
-import com.upec.androidtemplate20192020.views.horaireSncfAdapter;
 
 import java.util.List;
-import com.upec.androidtemplate20192020.models.ResponseStopAreas;
-import com.upec.androidtemplate20192020.views.MyAutoCompleteTextViewConfig;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class JourneyFragment extends Fragment {
-    RecyclerView recyclerView;
+    String NAME_FRAGMENT = "JourneyFragment";
+    static RecyclerView recyclerView;
     ResponseStopAreas stopAreas;
     EditText editTextStart;
     AutoCompleteTextView editTextEnd;
     MyAutoCompleteTextViewConfig myAutoCompleteTextViewConfig;
     MyAutoCompleteTextViewConfig myAutoCompleteTextViewConfig2;
-    final SncfApiWorker sncfApiWorker =  new SncfApiWorker(this);
-    SavedJourneys savedJourneys;
+    final SncfApiWorker sncfApiWorker = new SncfApiWorker(this);
+    static SavedJourneys savedJourneys;
+    public static String DATA_TAG = "JOURNEYS";
+
     public JourneyFragment() {
         // Required empty public constructor
     }
@@ -59,13 +57,13 @@ public class JourneyFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.fragment_trajet, container, false);
+        return inflater.inflate(R.layout.fragment_trajet, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState==null) {
+        if (savedInstanceState == null) {
             editTextStart = getActivity().findViewById(R.id.editText_trajet1);
             editTextEnd = getActivity().findViewById(R.id.editText_trajet2);
             recyclerView = getActivity().findViewById(R.id.recyclerView_trajet);
@@ -76,59 +74,73 @@ public class JourneyFragment extends Fragment {
             myAutoCompleteTextViewConfig.setListener(onEditorActionListener);
             myAutoCompleteTextViewConfig2.setListener(onEditorActionListener);
         }
-
     }
 
-    public void getAllStationsResults(ResponseStopAreas response){
+    public void getAllStationsResults(ResponseStopAreas response) {
         myAutoCompleteTextViewConfig.autoCompleteTextViewData(response.getStop_areasNames());
         myAutoCompleteTextViewConfig2.autoCompleteTextViewData(response.getStop_areasNames());
-        stopAreas=response;
+        stopAreas = response;
     }
 
-   TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() {
+    TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            String from="", to="";
-            if(actionId==EditorInfo.IME_ACTION_NEXT) {
+            String from = "", to = "";
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 editTextEnd.setFocusable(true);
             }
-            if(actionId==EditorInfo.IME_ACTION_SEARCH){
-                from=editTextStart.getText().toString();
-                to=editTextEnd.getText().toString();
-                if(from!="" && to!=""){
-                    Log.d("onEditor in JFragment", from+" "+to);
-                    sncfApiWorker.getJourneys(from,to);
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                from = editTextStart.getText().toString();
+                to = editTextEnd.getText().toString();
+                if (from != "" && to != "") {
+                    Log.d("onEditor in JFragment", from + " " + to);
+                    sncfApiWorker.getJourneys(from, to);
                 }
                 return true;
             }
             return false;
         }
     };
+
+    public void sendDataToDisplayFragment(List<Journey> journeyList) {
+
+        // FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+        //FragmentTransaction transaction = fragmentManager.beginTransaction()
+        //      .addToBackStack("").replace(R.id.fragment_container,new DisplayJourneysFragment());
+        //transaction.commit();
+//        Intent intent = new Intent(getContext(), DisplayJourneysActivity.class);
+        //intent.putParcelableArrayListExtra(DATA_TAG;,journeys);
+        //startActivity(intent);
+    }
+
+    public static void saveJourney(Journey journey) {
+        savedJourneys.addJourney(journey);
+    }
+
+
     public void createRecylerView(List<Journey> journeyList) {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        JourneySncfAdapter journeySncfAdapter = new JourneySncfAdapter(journeyList);
-        recyclerView.setAdapter(journeySncfAdapter);
-        recyclerView.setVisibility(View.VISIBLE);
-        saveJourney(journeySncfAdapter,journeyList);
-        //  editText.setVisibility(View.GONE);
+         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+         recyclerView.setLayoutManager(layoutManager);
+         JourneySncfAdapter journeySncfAdapter = new JourneySncfAdapter(journeyList);
+         recyclerView.setAdapter(journeySncfAdapter);
+         recyclerView.setVisibility(View.VISIBLE);
+         saveJourney(journeySncfAdapter,journeyList);
+         //  editText.setVisibility(View.GONE);
+     }
+    public void saveJourney(JourneySncfAdapter journeySncfAdapter, List<Journey> journeyList) {
+         journeySncfAdapter.setOnClickImageListener(new OnClickImageListener() {
+             @Override
+             public void onSaveJourney(int position) {
+                 Log.d("ONSAVE IN JF","ok bien sauvegardé");
+                 savedJourneys.addJourney(journeyList.get(position));
+                 Toast.makeText(getActivity(),"TRAJET SAUVEGARDE",Toast.LENGTH_LONG).show();
+                 displaySaveJourneys(savedJourneys);
+             }
+         });
+     }
+    private static void displaySaveJourneys(SavedJourneys savedJourneys) {
+        Log.d("DISPLAY", savedJourneys.getJourneys().toString());
+            FavoriteJourneysFragment.setSaveJourney(savedJourneys);
     }
-
-    private void saveJourney(JourneySncfAdapter journeySncfAdapter, List<Journey> journeyList) {
-        journeySncfAdapter.setOnClickImageListener(new OnClickImageListener() {
-            @Override
-            public void onSaveJourney(int position) {
-                Log.d("ONSAVE IN JF","ok bien sauvegardé");
-                savedJourneys.addJourney(journeyList.get(position));
-                Toast.makeText(getActivity(),"TRAJET SAUVEGARDE",Toast.LENGTH_LONG).show();
-                displaySaveJourneys(savedJourneys);
-            }
-        });
-    }
-
-    private void displaySaveJourneys(SavedJourneys savedJourneys) {
-            Log.d("DISPLAY", savedJourneys.getJourneys().toString());
-    }
-
 
 }

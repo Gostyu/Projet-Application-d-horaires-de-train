@@ -23,4 +23,11 @@
         android:enabled="true"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/trajetsFavoris"
+        android:title="@string/bottom_navigation_menu_mesTrajets"
+        android:icon="@drawable/ic_star_black_24dp"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        />
 </menu>

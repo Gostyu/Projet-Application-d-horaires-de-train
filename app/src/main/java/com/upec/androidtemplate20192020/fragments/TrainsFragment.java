@@ -43,7 +43,7 @@ public class TrainsFragment extends Fragment {
          * setContentView.
          */
         final View rootView = inflater.inflate(R.layout.fragment_trains, container, false);
-        //editText = rootView.findViewById(R.id.editText_train);
+        editText = rootView.findViewById(R.id.editText_train);
         recyclerView = rootView.findViewById(R.id.recyclerView_train);
         sncfApiWorker.requestAllStationsResults();
         myAutoCompleteTextView=new MyAutoCompleteTextViewConfig(getContext(),rootView.findViewById(R.id.editText_train));

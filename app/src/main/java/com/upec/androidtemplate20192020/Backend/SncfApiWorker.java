@@ -16,10 +16,6 @@ import com.upec.androidtemplate20192020.models.ResponseJourneys;
 import com.upec.androidtemplate20192020.models.ResponseStopAreas;
 import com.upec.androidtemplate20192020.models.StopArea;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -231,25 +227,25 @@ public class SncfApiWorker {
        return new Callback<ResponseJourneys>(){
            @Override
            public void onResponse(Call<ResponseJourneys> call, Response<ResponseJourneys> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null){
-                        Log.d("HRJ OK",response.raw().toString());
-                        Log.d("HRJ OK",response.body().toString());
-                        Log.d("HRJ OK","count of journeys :"+response.body().getJourneys().size());
-                        if(response.body().getJourneys().size()>0){
-                            for(Journey j : response.body().getJourneys()){
-                                Log.d("HRJ OK","timeJourney (duration) :"+j.getTotalJourneyTime());
+                if(response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.d("HRJ OK", response.raw().toString());
+                        Log.d("HRJ OK", response.body().toString());
+                        Log.d("HRJ OK", "count of journeys :" + response.body().getJourneys().size());
+                        if (response.body().getJourneys().size() > 0) {
+                            for (Journey j : response.body().getJourneys()) {
+                                Log.d("HRJ OK", "timeJourney (duration) :" + j.getTotalJourneyTime());
                             }
+                           // journeyFragment.sendDataToDisplayFragment(response.body().getJourneys());
+                            sendDataTo(journeyFragment, response.body().getJourneys());
                         }
-                            //journeyFragment
-                        sendDataTo(journeyFragment,response.body().getJourneys());
-                    }
-                    Log.d("HRJ OK",response.raw().toString());
-                     Log.d("HRJ OK","count of journeys :"+String.valueOf(response.body().getJourneys().size()));
                         //journeyFragment
-                        sendDataTo(journeyFragment,response.body().getJourneys());
                     }
-                else{
+                    Log.d("HRJ OK", response.raw().toString());
+                    Log.d("HRJ OK", "count of journeys :" + String.valueOf(response.body().getJourneys().size()));
+                    //journeyFragment
+                    // sendDataTo(journeyFragment,response.body().getJourneys());
+                }else{
                     Log.d("HRJ",response.raw().toString());
                 }
            }
@@ -262,7 +258,9 @@ public class SncfApiWorker {
     }
 
     private static void sendDataTo(JourneyFragment journeyFragment, List<Journey> journeys) {
-        journeyFragment.createRecylerView(journeys);
+        //journeyFragment.sendDataToDisplayFragment(journeys);
+         journeyFragment.createRecylerView(journeys);
+     //   journeyFragment.sendDataToDisplayJourneysActivity(journeys);
     }
 
 

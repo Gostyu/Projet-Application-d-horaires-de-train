@@ -9,16 +9,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SavedJourneys {
-    LinkedHashSet<Journey> mJourneys;
+    Set<Journey> mJourneys;
     public SavedJourneys(){
         mJourneys=new LinkedHashSet<>();
     }
     public void addJourney(Journey j){
         mJourneys.add(j);
     }
-
-    public LinkedHashSet<Journey> getJourneys() {
-        return mJourneys;
+    public ArrayList<Journey> getJourneys() {
+        ArrayList<Journey> journeys= new ArrayList<>(mJourneys);
+        return journeys;
     }
 
     @NonNull

@@ -1,5 +1,7 @@
 package com.upec.androidtemplate20192020.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,7 +15,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Map;
 
-public class Journey {
+public class Journey implements Parcelable{
     int duration;
     Map<String,Integer> durations;
     List<Section> sections;
@@ -29,6 +31,25 @@ public class Journey {
         this.durations=durations;
         this.arrival_date_time=arrival_date_time;
     }
+
+
+    protected Journey(Parcel in) {
+        duration = in.readInt();
+        sections = in.createTypedArrayList(Section.CREATOR);
+        arrival_date_time = in.readString();
+    }
+
+    public static final Creator<Journey> CREATOR = new Creator<Journey>() {
+        @Override
+        public Journey createFromParcel(Parcel in) {
+            return new Journey(in);
+        }
+
+        @Override
+        public Journey[] newArray(int size) {
+            return new Journey[size];
+        }
+    };
 
     @NonNull
     @Override
@@ -79,5 +100,17 @@ public class Journey {
             e.printStackTrace();
         }
         return "duration :" +duration+", arrival datetime :"+arrival_date_time+", durations : "+durations.toString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(duration);
+        dest.writeTypedList(sections);
+        dest.writeString(arrival_date_time);
     }
 }

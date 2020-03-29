@@ -25,6 +25,9 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="40dp"
             android:layout_above="@id/editText_trajet2"
+            android:padding="20dp"
+            android:textColorHighlight="@color/colorPrimary"
+            android:background="@color/colorWhite"
             />
         <AutoCompleteTextView
             android:id="@+id/editText_trajet2"
@@ -36,6 +39,9 @@
             android:dropDownAnchor="@id/bloc1"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
+            android:padding="20dp"
+            android:textColorHighlight="@color/colorPrimary"
+            android:background="@color/colorWhite"
             ></AutoCompleteTextView>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
@@ -45,8 +51,7 @@
         android:clipToPadding="false"
         android:visibility="gone"
         android:layout_below="@id/bloc1"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
+        />
 </RelativeLayout>
 
    <!-- Ajouter un bouton ici peut être-->
